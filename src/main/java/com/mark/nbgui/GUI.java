@@ -7,6 +7,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
@@ -30,10 +31,11 @@ public class GUI extends GuiScreen {
 
 		super.initGui();
 
-        GuiButton button = new GuiButton(1, this.width / 2 - 100, this.height / 2 - 24, "Play");
-        button.visible = true;
+        GuiButton button = new GuiButton(0, this.width / 2 - 100, this.height / 2 - 24, "Play");
 
 		this.buttonList.add(button);
+
+        System.out.println(Arrays.toString(this.buttonList.toArray()));
     }
 
 	@Override
