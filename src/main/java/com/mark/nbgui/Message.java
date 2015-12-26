@@ -16,7 +16,8 @@ public class Message implements IMessage {
     private NBTTagCompound compound;
 
     public Message(TileEntityNote entityNote) {
-        entityNote.writeToNBT(compound);
+        this.compound = new NBTTagCompound();
+        entityNote.writeToNBT(this.compound);
     }
 
     public void setText(String text) {

@@ -7,6 +7,12 @@ import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.NoteBlockEvent;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class NoteUtils {
     private static NoteBlockEvent.Instrument[] instruments
             = NoteBlockEvent.Instrument.values();
@@ -80,5 +86,21 @@ public class NoteUtils {
         return note < 12
                 ? NoteBlockEvent.Octave.LOW : note == 24
                 ? NoteBlockEvent.Octave.HIGH : NoteBlockEvent.Octave.MID;
+    }
+
+    public static NoteBlockEvent.Note getNoteFromInput(String input) {
+        input = input.toUpperCase();
+        Set<String> sharpIdentifiers
+                = new HashSet<String>(Arrays.asList(new String[] {
+                        "SHARP",
+                        "#",
+                        "♯"
+                }));
+
+        for (String identifier : sharpIdentifiers) {
+            if (input.contains(identifier)) {
+                
+            }
+        }
     }
 }
