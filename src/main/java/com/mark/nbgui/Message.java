@@ -15,8 +15,12 @@ import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 public class Message implements IMessage {
     private NBTTagCompound compound;
 
-    public Message(TileEntityNote entityNote) {
+    public Message() {
         this.compound = new NBTTagCompound();
+    }
+
+    public Message(TileEntityNote entityNote) {
+        this();
         entityNote.writeToNBT(this.compound);
     }
 
