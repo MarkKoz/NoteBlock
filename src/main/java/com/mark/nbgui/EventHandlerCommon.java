@@ -14,8 +14,8 @@ public class EventHandlerCommon {
     	if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK){
     		World world = event.world;
     		Block block = world.getBlockState(event.pos).getBlock();
-    		EntityPlayer open = new EntityPlayer();
-    		EntityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
+    		//EntityPlayer player = new EntityPlayer();
+    		//EntityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
     		//DEBUG
     		System.out.println("Position:" +event.pos);
     		System.out.println("Block:" +block);

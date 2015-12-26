@@ -1,0 +1,16 @@
+[
+{
+  "modid": "NBGUI",
+  "name": "Note Block GUI",
+  "description": "Adds a GUI to note blocks to ease tuning.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["Mark Kozlov"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
