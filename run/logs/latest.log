@@ -54,9 +54,10 @@ com.mojang.authlib.exceptions.AuthenticationException: The client has sent too m
 [07:07:50] [Server thread/INFO]: Saving chunks for level 'New World'/Overworld
 [07:07:50] [Server thread/INFO]: Saving chunks for level 'New World'/Nether
 [07:07:50] [Server thread/INFO]: Saving chunks for level 'New World'/The End
-[07:07:56] [Client thread/INFO]: Setting user: Player415
-[07:07:58] [Client thread/INFO]: LWJGL Version: 2.9.4
-[07:08:00] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Note Block GUI
+[07:10:29] [Client thread/INFO]: Stopping!
+[07:10:29] [Client thread/INFO]: SoundSystem shutting down...
+[07:10:29] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+lt, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Note Block GUI
 [07:08:00] [Sound Library Loader/INFO]: Starting up SoundSystem...
 [07:08:01] [Thread-8/INFO]: Initializing LWJGL OpenAL
 [07:08:01] [Thread-8/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
