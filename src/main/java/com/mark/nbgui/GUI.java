@@ -6,10 +6,9 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+
 public class GUI extends GuiScreen {
-	
-	private GuiButton buttonPlay;
-	
 	public final static int GUI_ID = 20;
 	
 	@Override
@@ -28,15 +27,21 @@ public class GUI extends GuiScreen {
 	public void initGui() {
 		// DEBUG
 	    System.out.println("GUI initGUI()");
-	    
-		buttonList.clear();
+
 		super.initGui();
-		
-		buttonPlay = new GuiButton(1, 20, 90, 20, 15, "Play");
-		buttonList.add(buttonPlay);
+
+		this.buttonList.add(new GuiButton(1, 20, 90, 20, 15, "Play"));
 	}
-	
-    /**
+
+	@Override
+	protected void actionPerformed(GuiButton button) throws IOException {
+		switch (button.id) {
+			case 1:
+				System.out.println("Play button clicked");
+				break;
+		}
+	}
+/**
      * Returns true if this GUI should pause the game when it is displayed in 
 
      * single-player
