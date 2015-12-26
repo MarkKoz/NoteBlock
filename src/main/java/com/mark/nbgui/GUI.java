@@ -17,10 +17,12 @@ public class GUI extends GuiScreen {
 			//String pitch = d;
 			
 			//Draw GUI
-            this.drawDefaultBackground();
+			this.drawDefaultBackground();
+			super.drawScreen(x, y, f);
             this.drawCenteredString(this.fontRendererObj, "Instrument: ", this.width / 2, 40, 0xFFFFFFFF);
             this.drawCenteredString(this.fontRendererObj, "Pitch: ", this.width / 2, 50, 0xFFFFFFFF);
             this.drawCenteredString(this.fontRendererObj, "Octave: ", this.width / 2, 60, 0xFFFFFFFF);
+            
     }
 	
 	@Override
@@ -28,9 +30,8 @@ public class GUI extends GuiScreen {
 		// DEBUG
 	    System.out.println("GUI initGUI()");
 
-		super.initGui();
-
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 2 - 24, "Play"));
+        GuiButton button = new GuiButton(1,this.width / 2, 90, 60, 20, "Play");
+		this.buttonList.add(button);
     }
 
 	@Override

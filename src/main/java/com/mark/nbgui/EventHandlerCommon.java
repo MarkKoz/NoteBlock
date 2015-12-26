@@ -16,7 +16,7 @@ public class EventHandlerCommon {
     		World world = event.world;
     		Block block = world.getBlockState(event.pos).getBlock();
     		EntityPlayer player = event.entityPlayer;
-    		if (block == Blocks.noteblock) {
+    		if (block.equals(Blocks.noteblock)) {
     			player.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
     		}
     		//DEBUG

@@ -31,6 +31,7 @@ public class NBGUI {
 	
     @EventHandler
     public void init(FMLInitializationEvent event) {
+    	//NetworkRegistry.INSTANCE.newSimpleChannel("Channel");
     	NetworkRegistry.INSTANCE.registerGuiHandler(NBGUI.instance, new GUIHandler());
     	MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
     }
