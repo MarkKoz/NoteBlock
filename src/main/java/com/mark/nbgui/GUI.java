@@ -34,7 +34,14 @@ public class GUI extends GuiScreen {
 		this.buttonList.add(button);
     }
 
-	@Override
+    @Override
+    public void onGuiClosed() {
+        super.onGuiClosed();
+
+
+    }
+
+    @Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		switch (button.id) {
 			case 1:
