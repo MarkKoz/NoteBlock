@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class GUI extends GuiScreen {
 	
-	//public static final int GUI_ID = 20;
+	public final static int GUI_ID = 20;
 
     private final int bookImageHeight = 192;
     private final int bookImageWidth = 192;
@@ -25,7 +25,7 @@ public class GUI extends GuiScreen {
     private NextPageButton buttonNextPage;
     private NextPageButton buttonPreviousPage;
     
-    public GUI()
+    public void StringGUI()
     {
 
         bookPageTextures[0] = new ResourceLocation(NBGUI.MODID+":textures/gui/book_cover.png");
@@ -119,9 +119,7 @@ public class GUI extends GuiScreen {
 
     /**
      * Called when a mouse button is pressed and the mouse is moved around. 
-
      * Parameters are : mouseX, mouseY, lastButtonClicked & 
-
      * timeSinceMouseClick.
      */
     @Override
@@ -161,7 +159,6 @@ public class GUI extends GuiScreen {
 
     /**
      * Called when the screen is unloaded. Used to disable keyboard repeat 
-
      * events
      */
     @Override
@@ -172,7 +169,6 @@ public class GUI extends GuiScreen {
 
     /**
      * Returns true if this GUI should pause the game when it is displayed in 
-
      * single-player
      */
     @Override

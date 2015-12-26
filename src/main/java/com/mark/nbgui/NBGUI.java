@@ -1,6 +1,7 @@
 package com.mark.nbgui;
 
 import net.minecraft.block.BlockNote;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -18,7 +19,6 @@ public class NBGUI {
     public static final String NAME = "Note Block GUI";
     public static final String DEPENDENCIES = "required-after:FML";
     public static final BlockNote BlockNote = new BlockNote();
-    public static final NoteBlock NoteBlock = new NoteBlock();
 
     @Instance("NBGUI")
     public static NBGUI instance;
@@ -30,7 +30,9 @@ public class NBGUI {
     }
 	
     @EventHandler
-    public void load(FMLInitializationEvent event) {
+    public void init(FMLInitializationEvent event) {
+    	NetworkRegistry.INSTANCE.registerGuiHandler(NBGUI.instance, new GUIHandler());
+    	MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
     }
        
     @EventHandler
