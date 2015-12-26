@@ -30,8 +30,8 @@ public class GUI extends GuiScreen {
 
 		super.initGui();
 
-		this.buttonList.add(new GuiButton(1, 20, 90, 20, 15, "Play"));
-	}
+		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 2 - 24, "Play"));
+    }
 
 	@Override
 	protected void actionPerformed(GuiButton button) throws IOException {
