@@ -40,8 +40,10 @@ public class Message implements IMessage {
         public IMessage onMessage(Message message, MessageContext ctx) {
             if (message.text.startsWith("NOTE_")) {
                 NoteBlockEvent.Note note = NoteBlockEvent.Note.valueOf(message.text.substring(5));
-                if (note != null) {
-                    System.out.println("Setting note to " + note);
+                if (note != null && EventHandlerCommon.lastTile != null
+                        && !EventHandlerCommon.lastTile.isInvalid()) {
+                    EventHandlerCommon.lastTile.note = (byte) note.ordinal();
+                    System.out.println("SERVER: Set noteblock note to " + note.name());
                 }
             } else if (message.text.startsWith("OCTAVE_")) {
                 NoteBlockEvent.Octave octave = NoteBlockEvent.Octave.valueOf(message.text.substring(7));
