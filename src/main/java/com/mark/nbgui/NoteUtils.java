@@ -1,5 +1,6 @@
 package com.mark.nbgui;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockNote;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntityNote;
@@ -50,11 +51,11 @@ public class NoteUtils {
         return 0;
     }
 
-    public static NoteBlockEvent.Instrument getNoteBlockInstrument(BlockNote block) {
-        if (block == null) {
+    public static NoteBlockEvent.Instrument getNoteBlockInstrument(Block blockUnder) {
+        if (blockUnder == null) {
             return NoteBlockEvent.Instrument.PIANO;
         }
-        Material material = block.getMaterial();
+        Material material = blockUnder.getMaterial();
         byte id = 0;
         if (material == Material.rock) {
             id = 1;
@@ -76,9 +77,8 @@ public class NoteUtils {
 
     public static NoteBlockEvent.Octave getBlockOctave(TileEntityNote entityNote) {
         byte note = entityNote.note;
-        NoteBlockEvent.Octave octave = note < 12
+        return note < 12
                 ? NoteBlockEvent.Octave.LOW : note == 24
                 ? NoteBlockEvent.Octave.HIGH : NoteBlockEvent.Octave.MID;
-        return octave;
     }
 }

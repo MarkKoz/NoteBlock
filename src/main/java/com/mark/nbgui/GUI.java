@@ -1,5 +1,6 @@
 package com.mark.nbgui;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockNote;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -24,25 +25,23 @@ public class GUI extends GuiScreen {
 
     private TileEntityNote entityNote;
     private BlockNote blockNote;
+    private Block underBlock;
 
     public GUI(EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
 
         this.entityNote = (TileEntityNote) world.getTileEntity(pos);
         this.blockNote = (BlockNote) world.getBlockState(pos).getBlock();
+        this.underBlock = world.getBlockState(pos.down()).getBlock();
     }
 	
 	@Override
     public void drawScreen(int x, int y, float f) {
-			//EventHandlerCommon.openGUI(event);
-			//String pitch = d;
-			
-			//Draw GUI
 			this.drawDefaultBackground();
 			super.drawScreen(x, y, f);
             this.drawCenteredString(this.fontRendererObj,
                     GUI.instrumentText.replace("{instrument}",
-                            NoteUtils.getNoteBlockInstrument(this.blockNote).name()),
+                            NoteUtils.getNoteBlockInstrument(this.underBlock).name()),
                     this.width / 2, 40, 0xFFFFFFFF);
             this.drawCenteredString(this.fontRendererObj,
                     GUI.pitchText.replace("{pitch}", NoteUtils.getNoteString(
@@ -57,9 +56,6 @@ public class GUI extends GuiScreen {
 	
 	@Override
 	public void initGui() {
-		// DEBUG
-	    System.out.println("GUI initGUI()");
-
         GuiButton button = new GuiButton(1,this.width / 2, 90, 60, 20, "Play");
 		this.buttonList.add(button);
     }
@@ -73,10 +69,9 @@ public class GUI extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		switch (button.id) {
 			case 1:
-				System.out.println("Play button clicked");
-                NBGUI.network.sendToServer(new Message(entityNote, "play"));
-                NBGUI.network.sendToServer(new Message(entityNote, NoteBlockEvent.Note.A_SHARP));
-                NBGUI.network.sendToServer(new Message(entityNote, NoteBlockEvent.Octave.HIGH));
+                Message msg = new Message(this.entityNote);
+                msg.setText("play");
+                NBGUI.network.sendToServer(msg);
 				break;
 		}
 	}

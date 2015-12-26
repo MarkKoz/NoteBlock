@@ -1,7 +1,11 @@
 package com.mark.nbgui;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityNote;
+import net.minecraft.util.IThreadListener;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -9,48 +13,52 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class Message implements IMessage {
-    private String text;
+    private NBTTagCompound compound;
 
-    public Message() {
+    public Message(TileEntityNote entityNote) {
+        entityNote.writeToNBT(compound);
     }
 
-    public Message(TileEntityNote noteEntity, String text) {
-        this.text = text;
+    public void setText(String text) {
+        this.compound.setString("____NBGUIMsg", text);
     }
 
-    public Message(TileEntityNote noteEntity, NoteBlockEvent.Note note) {
-        this.text = "NOTE_" + NoteUtils.noteToInt(note);
-    }
-
-    public Message(TileEntityNote noteEntity, NoteBlockEvent.Octave octave) {
-        this.text = "OCTAVE_" + octave.name();
+    public void setPitch(int pitch) {
+        this.compound.setString("____NBGUIMsg", "PITCH_" + pitch);
     }
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        text = ByteBufUtils.readUTF8String(buf);
+        this.compound = ByteBufUtils.readTag(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        ByteBufUtils.writeUTF8String(buf, this.text);
+        ByteBufUtils.writeTag(buf, this.compound);
     }
 
     public static class Handler implements IMessageHandler<Message, IMessage> {
         @Override
-        public IMessage onMessage(Message message, MessageContext ctx) {
-            if (message.text.startsWith("NOTE_")) {
-                NoteBlockEvent.Note note = NoteBlockEvent.Note.valueOf(message.text.substring(5));
-                if (note != null) {
+        public IMessage onMessage(final Message message, MessageContext ctx) {
+            IThreadListener mainThread
+                    = (WorldServer) ctx.getServerHandler().playerEntity.worldObj;
+            mainThread.addScheduledTask(new Runnable() {
+                @Override
+                public void run() {
+                    TileEntityNote noteBlock = new TileEntityNote();
+                    noteBlock.readFromNBT(message.compound);
+
+                    String text = message.compound.getString("____NBGUIMsg");
+                    if (text.startsWith("PITCH_")) {
+                        int pitch = Integer.parseInt(text.replace("PITCH_", ""));
+                        noteBlock.note = (byte) pitch;
+                    } else if (text.equals("play")) {
+                        noteBlock.triggerNote(noteBlock.getWorld(), noteBlock.getPos());
+                    }
                 }
-            } else if (message.text.startsWith("OCTAVE_")) {
-                NoteBlockEvent.Octave octave = NoteBlockEvent.Octave.valueOf(message.text.substring(7));
-                if (octave != null) {
-                }
-            } else if (message.text.equals("play")) {
-                System.out.println("SERVER: Play pressed");
-            }
+            });
             return null;
+
         }
     }
 }

@@ -25,12 +25,11 @@ public class EventHandlerCommon {
 
 	@SubscribeEvent
     public void playerInteract(PlayerInteractEvent event) {
-    	if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK){
+    	if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
     		World world = event.world;
     		Block block = world.getBlockState(event.pos).getBlock();
-    		EntityPlayer player = event.entityPlayer;
     		if (block.equals(Blocks.noteblock)) {
-    			player.openGui(NBGUI.instance,
+                event.entityPlayer.openGui(NBGUI.instance,
                         GUI.GUI_ID, world,
                         event.pos.getX(),
                         event.pos.getY(),
