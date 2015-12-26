@@ -40,11 +40,8 @@ public class EventHandlerCommon {
                         event.pos.getZ());
     		}
     		//DEBUG
-    		System.out.println("POS: " +event.pos);
-    		System.out.println("BLOCK: " +block);
-    		
-    		//Note pitch = NoteBlockEvent.getNote();
-    		//String note = d;
+    		System.out.println("POS: " + event.pos);
+    		System.out.println("BLOCK: " + block);
     	}
     }
 }

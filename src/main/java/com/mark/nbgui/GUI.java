@@ -46,6 +46,7 @@ public class GUI extends GuiScreen {
 		switch (button.id) {
 			case 1:
 				System.out.println("Play button clicked");
+                NBGUI.network.sendToServer(new Message("FROM SERVER: Play button clicked"));
 				break;
 		}
 	}
