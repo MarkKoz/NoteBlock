@@ -5,10 +5,15 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class EventHandlerCommon {
-	
+
+    @SubscribeEvent
+    public void noteBlockPlay(NoteBlockEvent event) {
+        System.out.println(event.getNote());
+    }
 	
 	@SubscribeEvent
     public void openGUI(PlayerInteractEvent event) {
