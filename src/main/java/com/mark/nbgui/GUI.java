@@ -3,6 +3,7 @@ package com.mark.nbgui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -37,8 +38,6 @@ public class GUI extends GuiScreen {
     @Override
     public void onGuiClosed() {
         super.onGuiClosed();
-
-
     }
 
     @Override
@@ -46,17 +45,15 @@ public class GUI extends GuiScreen {
 		switch (button.id) {
 			case 1:
 				System.out.println("Play button clicked");
-                NBGUI.network.sendToServer(new Message("FROM SERVER: Play button clicked"));
+                NBGUI.network.sendToServer(new Message("play"));
+                NBGUI.network.sendToServer(new Message(NoteBlockEvent.Note.A_SHARP));
+                NBGUI.network.sendToServer(new Message(NoteBlockEvent.Octave.HIGH));
 				break;
 		}
 	}
-/**
-     * Returns true if this GUI should pause the game when it is displayed in 
 
-     * single-player
-     */
-    /*@Override
+    @Override
     public boolean doesGuiPauseGame() {
-        return true;
-    }*/
+        return false;
+    }
 }

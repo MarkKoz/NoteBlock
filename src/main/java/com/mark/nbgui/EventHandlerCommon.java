@@ -16,13 +16,12 @@ public class EventHandlerCommon {
 
     @SubscribeEvent
     public void noteBlockChange(NoteBlockEvent.Change event) {
+        event.setCanceled(true);
         //CHANGE EVENT
     }
 
     @SubscribeEvent
     public void noteBlockPlay(NoteBlockEvent.Play event) {
-        event.setCanceled(true);
-
         //PLAY OVERRIDDEN
     }
 	
