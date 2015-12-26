@@ -12,16 +12,11 @@ public class EventHandlerCommon {
     	if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK){
     		World world = event.world;
     		Block block = world.getBlockState(event.pos).getBlock();
-<<<<<<< HEAD
     		String blocktype = "+block";
     		EntityPlayer player = event.entityPlayer;
     		if (blocktype == "Block{minecraft:noteblock}") {
     			player.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
     		}
-=======
-    		EntityPlayer player = event.entityPlayer;
-			player.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
->>>>>>> origin/master
     		//DEBUG
     		System.out.println("Position:" + event.pos);
     		System.out.println("Block:" + block);
