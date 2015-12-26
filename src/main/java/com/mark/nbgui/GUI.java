@@ -30,7 +30,10 @@ public class GUI extends GuiScreen {
 
 		super.initGui();
 
-		this.buttonList.add(new GuiButton(1, this.width / 2 - 100, this.height / 2 - 24, "Play"));
+        GuiButton button = new GuiButton(1, this.width / 2 - 100, this.height / 2 - 24, "Play");
+        button.visible = true;
+
+		this.buttonList.add(button);
     }
 
 	@Override
