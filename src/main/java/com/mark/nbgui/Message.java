@@ -1,6 +1,7 @@
 package com.mark.nbgui;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityNote;
@@ -58,7 +59,7 @@ public class Message implements IMessage {
                         int pitch = Integer.parseInt(text.replace("PITCH_", ""));
                         noteBlock.note = (byte) pitch;
                     } else if (text.equals("play")) {
-                        noteBlock.triggerNote(noteBlock.getWorld(), noteBlock.getPos());
+                        noteBlock.triggerNote(Minecraft.getMinecraft().theWorld, noteBlock.getPos());
                     }
                 }
             });
