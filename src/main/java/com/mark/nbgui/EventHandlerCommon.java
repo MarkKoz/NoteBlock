@@ -35,7 +35,7 @@ public class EventHandlerCommon {
                         event.pos.getY(),
                         event.pos.getZ());
 
-                //event.useBlock = Event.Result.DENY;
+                event.useBlock = Event.Result.DENY;
     		}
     		//DEBUG
     		System.out.println("POS: " + event.pos);

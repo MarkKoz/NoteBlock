@@ -6,7 +6,6 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
@@ -53,9 +52,6 @@ public class GUI extends GuiScreen {
                             NoteUtils.getBlockOctave(this.entityNote).name()),
                     this.width / 2, 60, 0xFFFFFFFF);
             
-            NBTTagCompound nbt = new NBTTagCompound();
-            this.entityNote.writeToNBT(nbt);
-            System.out.println(nbt);
     }
 	
 	@Override
