@@ -1,6 +1,7 @@
 package com.mark.nbgui;
 
 import io.netty.buffer.ByteBuf;
+import net.minecraft.tileentity.TileEntityNote;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -13,15 +14,15 @@ public class Message implements IMessage {
     public Message() {
     }
 
-    public Message(String text) {
+    public Message(TileEntityNote noteEntity, String text) {
         this.text = text;
     }
 
-    public Message(NoteBlockEvent.Note note) {
-        this.text = "NOTE_" + note.name();
+    public Message(TileEntityNote noteEntity, NoteBlockEvent.Note note) {
+        this.text = "NOTE_" + NoteUtils.noteToInt(note);
     }
 
-    public Message(NoteBlockEvent.Octave octave) {
+    public Message(TileEntityNote noteEntity, NoteBlockEvent.Octave octave) {
         this.text = "OCTAVE_" + octave.name();
     }
 
@@ -40,15 +41,11 @@ public class Message implements IMessage {
         public IMessage onMessage(Message message, MessageContext ctx) {
             if (message.text.startsWith("NOTE_")) {
                 NoteBlockEvent.Note note = NoteBlockEvent.Note.valueOf(message.text.substring(5));
-                if (note != null && EventHandlerCommon.lastTile != null
-                        && !EventHandlerCommon.lastTile.isInvalid()) {
-                    EventHandlerCommon.lastTile.note = (byte) note.ordinal();
-                    System.out.println("SERVER: Set noteblock note to " + note.name());
+                if (note != null) {
                 }
             } else if (message.text.startsWith("OCTAVE_")) {
                 NoteBlockEvent.Octave octave = NoteBlockEvent.Octave.valueOf(message.text.substring(7));
                 if (octave != null) {
-                    System.out.println("Setting octave to " + octave);
                 }
             } else if (message.text.equals("play")) {
                 System.out.println("SERVER: Play pressed");

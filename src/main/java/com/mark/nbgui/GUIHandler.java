@@ -19,7 +19,7 @@ public class GUIHandler implements IGuiHandler {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
 		if (ID == GUI.GUI_ID) {
-			return new GUI();
+			return new GUI(player, world, x, y, z);
 		}
 		return null;
 	}
