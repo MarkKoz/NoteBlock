@@ -1,5 +1,7 @@
 *.class
 
+*.json
+
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
@@ -115,6 +117,3 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
-
-#json
-.json
