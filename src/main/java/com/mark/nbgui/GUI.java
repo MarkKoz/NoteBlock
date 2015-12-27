@@ -99,14 +99,15 @@ public class GUI extends GuiScreen {
     	if (this.noteTextField.textboxKeyTyped(character, keyCode)) {
     		if (keyCode == Keyboard.KEY_RETURN) {
     			this.noteTextField.setFocused(false);
-                NoteUtils.getNoteFromInput(GUI.noteTextField.getText());
+                Message msg = new Message();
+                msg.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText()));
+                NBGUI.network.sendToServer(msg);
     			//TODO add server packet stuff?
     		}
     	}
     	else if (this.octaveTextField.textboxKeyTyped(character, keyCode)) {
     		if (keyCode == Keyboard.KEY_RETURN) {
     			this.octaveTextField.setFocused(false);
-    			NoteUtils.getOctaveFromInput(GUI.octaveTextField.getText());
     			//TODO add server packet stuff?
     		}
     	}
