@@ -10,6 +10,7 @@ import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
 
 public class EventHandlerCommon {
     @SubscribeEvent
@@ -22,6 +23,12 @@ public class EventHandlerCommon {
     public void noteBlockPlay(NoteBlockEvent.Play event) {
         //PLAY OVERRIDDEN
     }*/
+    
+    @SubscribeEvent  
+    public void onKeyInput(InputEvent.KeyInputEvent event) {
+        if(KeyBindings.pong.isPressed())
+            System.out.println("[DEBUG] Return Constant");
+    }
 
 	@SubscribeEvent
     public void playerInteract(PlayerInteractEvent event) {

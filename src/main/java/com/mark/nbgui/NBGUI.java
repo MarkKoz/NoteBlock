@@ -37,6 +37,7 @@ public class NBGUI {
         network.registerMessage(Message.Handler.class, Message.class, 0, Side.SERVER);
         NetworkRegistry.INSTANCE.registerGuiHandler(NBGUI.instance, new GUIHandler());
     	MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
+    	KeyBindings.init();
     }
        
     @EventHandler

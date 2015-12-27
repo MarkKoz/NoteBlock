@@ -115,49 +115,59 @@ public class GUI extends GuiScreen {
 		
 		//TODO Add option to merge note and octave text fields into one.
     }
-
+	
     @Override
     public void keyTyped(char character, int keyCode) throws IOException {
     	if (this.noteTextField.textboxKeyTyped(character, keyCode)) {
-    		if (keyCode == Keyboard.KEY_RETURN) {
+    		
+    		//DEBUG
+        	System.out.println("[DEBUG] Note typed: "+noteTextField.textboxKeyTyped(character, keyCode));
+        	System.out.println("[DEBUG] Character: "+character);
+        	System.out.println("[DEBUG] Code: "+keyCode);
+        	System.out.println("[DEBUG]-------------------END-----------------------");
+    		
+    		if (keyCode == 28) {
     			this.noteTextField.setFocused(false);
+    			
+    			//DEBUG
+    			System.out.println("[DEBUG] Note return pressed: ");
+            	System.out.println("[DEBUG]-------------------END-----------------------");
+    			
+    			//TODO add server packet stuff
                 Message msg = new Message();
                 msg.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText(), GUI.octaveTextField.getText()));
-                NBGUI.network.sendToServer(msg);
-    			//TODO add server packet stuff?
+                NBGUI.network.sendToServer(msg);   
     		}
-    	}
-    	else if (this.octaveTextField.textboxKeyTyped(character, keyCode)) {
-    		if (keyCode == Keyboard.KEY_RETURN) {
+    	} else if (this.octaveTextField.textboxKeyTyped(character, keyCode)) {
+    		if (keyCode == 28) {
     			this.octaveTextField.setFocused(false);
-    			//TODO add server packet stuff?
+    			//TODO add server packet stuff
     		}
-    	}
-    	else {
+    	} else {
     		super.keyTyped(character, keyCode);
     	}
-    	}
+    }
     
     @Override
     public void mouseClicked(int x, int y, int clickedButon) throws IOException {
     	super.mouseClicked(x, y, clickedButon);
-    	if (this.noteTextField.isFocused()) {
-    		this.noteTextField.setText("");
-    		//TODO Make sure text gets reset back to previous if input is invalid.
-    	}
-    	else if (this.octaveTextField.isFocused()) {
-    		this.octaveTextField.setText("");   		
-    	}
     	this.noteTextField.mouseClicked(x, y, clickedButon);
     	this.octaveTextField.mouseClicked(x, y, clickedButon);
+    	if (this.noteTextField.isFocused()) {
+    		this.noteTextField.setText("");
+    	} else if (this.octaveTextField.isFocused()) {
+    		this.octaveTextField.setText("");   		
+    	}
+    	/*Debug
+    	System.out.println("[DEBUG] Note focused: "+noteTextField.isFocused());
+    	System.out.println("[DEBUG] Octave focused: "+octaveTextField.isFocused());
+    	System.out.println("[DEBUG]-------------------END-----------------------");*/
     	}
     
     @Override	
     public void updateScreen() {
     	 this.noteTextField.updateCursorCounter();
     	 this.octaveTextField.updateCursorCounter();
-    	//note = noteTextField.getText();
-    	//octave = octaveTextField.getText();
     }
     
     @Override
