@@ -100,7 +100,7 @@ public class GUI extends GuiScreen {
     		if (keyCode == Keyboard.KEY_RETURN) {
     			this.noteTextField.setFocused(false);
                 Message msg = new Message();
-                msg.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText()));
+                msg.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText(), GUI.octaveTextField.getText()));
                 NBGUI.network.sendToServer(msg);
     			//TODO add server packet stuff?
     		}
