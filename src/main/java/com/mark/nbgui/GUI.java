@@ -53,7 +53,8 @@ public class GUI extends GuiScreen {
             this.drawCenteredString(this.fontRendererObj,
                     GUI.instrumentText.replace("{instrument}",
                     NoteUtils.getInstrumentString(NoteUtils.getNoteBlockInstrument(this.underBlock))),
-                    this.width / 2, 40, 0xFFFFFFFF);
+                    this.width / 2, 30, 0xFFFFFFFF);
+            //TODO Remove note and octave strings; redundant with text fields
             this.drawCenteredString(this.fontRendererObj,
                     GUI.pitchText.replace("{pitch}", 
                     NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote))),
@@ -61,7 +62,7 @@ public class GUI extends GuiScreen {
             this.drawCenteredString(this.fontRendererObj,
                     GUI.octaveText.replace("{octave}", 
                     NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote))),
-                    this.width / 2, 60, 0xFFFFFFFF);
+                    this.width / 2, 70, 0xFFFFFFFF);
             
     }
 	
@@ -69,12 +70,31 @@ public class GUI extends GuiScreen {
 	public void initGui() {    
 		Keyboard.enableRepeatEvents(false);
 		
-		//Play
-		GuiButton button = new GuiButton(1,this.width / 2 - 30, 90, 60, 20, "Play");
-		this.buttonList.add(button);
+		//Play Button
+		GuiButton playButton = new GuiButton(1, this.width / 2 - 30, 90, 60, 20, "Play");	
+		this.buttonList.add(playButton);
+		
+		//Note +1 Button
+		GuiButton noteButtonAdd = new GuiButton(2, this.width / 2 - 60, 130, 20, 20, "+");
+		this.buttonList.add(noteButtonAdd);
+		
+		//Note -1 Button
+		GuiButton noteButtonSub = new GuiButton(3, this.width / 2 + 40, 130, 20, 20, "-");
+		this.buttonList.add(noteButtonSub);
+		
+		//Octave +1 Button
+		GuiButton octaveButtonAdd = new GuiButton(4, this.width / 2 - 60, 160, 20, 20, "+");
+		this.buttonList.add(octaveButtonAdd);
+		//TODO Grey out button if octave == 5 && note.equals("F_SHARP")
+		
+		//Octave -1 Button
+		GuiButton octaveButtonSub = new GuiButton(5, this.width / 2 + 40, 160, 20, 20, "-");
+		this.buttonList.add(octaveButtonSub);
+		//TODO Grey out button if octave == 3
+		
 		
 		//Note Text Field
-		this.noteTextField = new GuiTextField(2, fontRendererObj, this.width/2 - 60, 130, 120, 20);
+		this.noteTextField = new GuiTextField(2, fontRendererObj, this.width/2 - 30, 130, 60, 20);
 		this.noteTextField.setFocused(false);
 		this.noteTextField.setCanLoseFocus(true);
 		this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
@@ -84,14 +104,16 @@ public class GUI extends GuiScreen {
 		this.noteTextField.setMaxStringLength(7);
 		
 		//Octave Text Field
-		this.octaveTextField = new GuiTextField(3, fontRendererObj, this.width/2 - 60, 160, 120, 20);
+		this.octaveTextField = new GuiTextField(3, fontRendererObj, this.width/2 - 30, 160, 60, 20);
 		this.octaveTextField.setFocused(false);
 		this.octaveTextField.setCanLoseFocus(true);
 		this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
 		this.octaveTextField.setTextColor(-1);
 		this.octaveTextField.setDisabledTextColour(-1);
 		this.octaveTextField.setEnableBackgroundDrawing(true);
-		this.octaveTextField.setMaxStringLength(1);		
+		this.octaveTextField.setMaxStringLength(1);	
+		
+		//TODO Add option to merge note and octave text fields into one.
     }
 
     @Override
@@ -146,10 +168,18 @@ public class GUI extends GuiScreen {
     @Override
 	protected void actionPerformed(GuiButton button) throws IOException {
 		switch (button.id) {
-			case 1:
+			case 1: //Play
                 Message msg = new Message(this.entityNote);
                 msg.setText("play");
                 NBGUI.network.sendToServer(msg);
+				break;
+			case 2: //Note +1
+				break;
+			case 3: //Note -1
+				break;
+			case 4: //Octave +1
+				break;
+			case 5: //Octave -1
 				break;
 		}
 	}
