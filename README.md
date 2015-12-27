@@ -21,5 +21,6 @@ A graphical user interface that eases working with note blocks in Minecraft.
 ## Credits
 
 Mark Kozlov
+
 Nima Shoghi
 

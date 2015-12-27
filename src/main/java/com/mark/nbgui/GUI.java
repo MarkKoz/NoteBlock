@@ -142,10 +142,11 @@ public class GUI extends GuiScreen {
     public void mouseClicked(int x, int y, int clickedButon) throws IOException {
     	super.mouseClicked(x, y, clickedButon);
     	if (this.noteTextField.isFocused()) {
-    		this.noteTextField.setText("");   		
+    		this.noteTextField.setText("");
+    		//TODO Make sure text gets reset back to previous if input is invalid.
     	}
-    	else if (this.noteTextField.isFocused()) {
-    		this.noteTextField.setText("");   		
+    	else if (this.octaveTextField.isFocused()) {
+    		this.octaveTextField.setText("");   		
     	}
     	this.noteTextField.mouseClicked(x, y, clickedButon);
     	this.octaveTextField.mouseClicked(x, y, clickedButon);
