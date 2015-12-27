@@ -47,8 +47,8 @@ public class GUI extends GuiScreen {
 			this.drawDefaultBackground();
 			super.drawScreen(x, y, f);
 			
-			noteTextField.drawTextBox();
-			octaveTextField.drawTextBox();
+			this.noteTextField.drawTextBox();
+			this.octaveTextField.drawTextBox();
 			
             this.drawCenteredString(this.fontRendererObj,
                     GUI.instrumentText.replace("{instrument}",
@@ -74,29 +74,39 @@ public class GUI extends GuiScreen {
 		this.buttonList.add(button);
 		
 		//Note Text Field
-		noteTextField = new GuiTextField(2, fontRendererObj, this.width/2 - 60, 130, 120, 20);
-		noteTextField.setFocused(false);
-		noteTextField.setTextColor(-1);
-		noteTextField.setDisabledTextColour(-1);
-		noteTextField.setEnableBackgroundDrawing(true);
-		noteTextField.setMaxStringLength(7);
+		this.noteTextField = new GuiTextField(2, fontRendererObj, this.width/2 - 60, 130, 120, 20);
+		this.noteTextField.setFocused(false);
+		this.noteTextField.setCanLoseFocus(true);
+		this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
+		this.noteTextField.setTextColor(-1);
+		this.noteTextField.setDisabledTextColour(-1);
+		this.noteTextField.setEnableBackgroundDrawing(true);
+		this.noteTextField.setMaxStringLength(7);
 		
 		//Octave Text Field
-		octaveTextField = new GuiTextField(3, fontRendererObj, this.width/2 - 60, 160, 120, 20);
-		octaveTextField.setFocused(false);
-		octaveTextField.setTextColor(-1);
-		octaveTextField.setDisabledTextColour(-1);
-		octaveTextField.setEnableBackgroundDrawing(true);
-		octaveTextField.setMaxStringLength(1);		
+		this.octaveTextField = new GuiTextField(3, fontRendererObj, this.width/2 - 60, 160, 120, 20);
+		this.octaveTextField.setFocused(false);
+		this.octaveTextField.setCanLoseFocus(true);
+		this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
+		this.octaveTextField.setTextColor(-1);
+		this.octaveTextField.setDisabledTextColour(-1);
+		this.octaveTextField.setEnableBackgroundDrawing(true);
+		this.octaveTextField.setMaxStringLength(1);		
     }
 
     @Override
     public void keyTyped(char c, int i) throws IOException{
-    	if (noteTextField.textboxKeyTyped(c, i)) {
-    		//mc.thePlayer.sendQueue.addToSendQueue(new pack("string", this.noteTextField.getText().getBytes());
+    	if (this.noteTextField.textboxKeyTyped(c, i)) {
+    		if (i == Keyboard.KEY_RETURN) {
+    			this.noteTextField.setFocused(false);
+    			//TODO add server packet stuff?
+    		}
     	}
-    	else if (octaveTextField.textboxKeyTyped(c, i)) {
-    		//mc.thePlayer.sendQueue.addToSendQueue(new pack("string", this.octaveTextField.getText().getBytes());
+    	else if (this.octaveTextField.textboxKeyTyped(c, i)) {
+    		if (i == Keyboard.KEY_RETURN) {
+    			this.octaveTextField.setFocused(false);
+    			//TODO add server packet stuff?
+    		}
     	}
     	else {
     		super.keyTyped(c, i);
@@ -106,12 +116,20 @@ public class GUI extends GuiScreen {
     @Override
     public void mouseClicked(int i, int j, int k) throws IOException {
     	super.mouseClicked(i, j, k);
-    	noteTextField.mouseClicked(i, j, k);
-    	octaveTextField.mouseClicked(i, j, k);
+    	if (this.noteTextField.isFocused()) {
+    		this.noteTextField.setText("");   		
+    	}
+    	else if (this.noteTextField.isFocused()) {
+    		this.noteTextField.setText("");   		
+    	}
+    	this.noteTextField.mouseClicked(i, j, k);
+    	this.octaveTextField.mouseClicked(i, j, k);
     	}
     
     @Override	
     public void updateScreen() {
+    	 this.noteTextField.updateCursorCounter();
+    	 this.octaveTextField.updateCursorCounter();
     	//note = noteTextField.getText();
     	//octave = octaveTextField.getText();
     }
