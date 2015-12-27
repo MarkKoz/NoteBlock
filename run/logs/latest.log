@@ -1,0 +1,144 @@
+[03:12:10] [Client thread/INFO]: Setting user: Player790
+[03:12:12] [Client thread/INFO]: LWJGL Version: 2.9.4
+[03:12:14] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Note Block GUI
+[03:12:14] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[03:12:14] [Thread-9/INFO]: Initializing LWJGL OpenAL
+[03:12:14] [Thread-9/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[03:12:14] [Thread-9/INFO]: OpenAL initialized.
+[03:12:15] [Sound Library Loader/INFO]: Sound engine started
+[03:12:16] [Client thread/INFO]: Created: 16x16 textures-atlas
+[03:12:16] [Client thread/INFO]: Reloading ResourceManager: Default, FMLFileResourcePack:Forge Mod Loader, FMLFileResourcePack:Minecraft Forge, FMLFileResourcePack:Note Block GUI
+[03:12:16] [Client thread/INFO]: SoundSystem shutting down...
+[03:12:16] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
+[03:12:16] [Sound Library Loader/INFO]: Starting up SoundSystem...
+[03:12:17] [Thread-11/INFO]: Initializing LWJGL OpenAL
+[03:12:17] [Thread-11/INFO]: (The LWJGL binding of OpenAL.  For more information, see http://www.lwjgl.org)
+[03:12:17] [Thread-11/INFO]: OpenAL initialized.
+[03:12:17] [Sound Library Loader/INFO]: Sound engine started
+[03:12:18] [Client thread/INFO]: Created: 512x512 textures-atlas
+[03:12:21] [Server thread/INFO]: Starting integrated minecraft server version 1.8.8
+[03:12:21] [Server thread/INFO]: Generating keypair
+[03:12:21] [Server thread/INFO]: Preparing start region for level 0
+[03:12:22] [Server thread/INFO]: Changing view distance to 12, from 10
+[03:12:23] [Server thread/INFO]: Player790[local:E:a67c85bd] logged in with entity id 161 at (57.60261518847486, 4.0, -1692.9495468318992)
+[03:12:23] [Server thread/INFO]: Player790 joined the game
+[03:12:24] [pool-2-thread-1/WARN]: Couldn't look up profile properties for com.mojang.authlib.GameProfile@c79479c[id=2f0d3d8c-afbe-358f-b8f3-786d7b0f9259,name=Player790,properties={},legacy=false]
+com.mojang.authlib.exceptions.AuthenticationException: The client has sent too many requests within a certain amount of time
+	at com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService.makeRequest(YggdrasilAuthenticationService.java:65) ~[YggdrasilAuthenticationService.class:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillGameProfile(YggdrasilMinecraftSessionService.java:175) [YggdrasilMinecraftSessionService.class:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService$1.load(YggdrasilMinecraftSessionService.java:59) [YggdrasilMinecraftSessionService$1.class:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService$1.load(YggdrasilMinecraftSessionService.java:56) [YggdrasilMinecraftSessionService$1.class:?]
+	at com.google.common.cache.LocalCache$LoadingValueReference.loadFuture(LocalCache.java:3524) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache$Segment.loadSync(LocalCache.java:2317) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache$Segment.lockedGetOrLoad(LocalCache.java:2280) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache$Segment.get(LocalCache.java:2195) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache.get(LocalCache.java:3934) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache.getOrLoad(LocalCache.java:3938) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache$LocalLoadingCache.get(LocalCache.java:4821) [guava-17.0.jar:?]
+	at com.google.common.cache.LocalCache$LocalLoadingCache.getUnchecked(LocalCache.java:4827) [guava-17.0.jar:?]
+	at com.mojang.authlib.yggdrasil.YggdrasilMinecraftSessionService.fillProfileProperties(YggdrasilMinecraftSessionService.java:165) [YggdrasilMinecraftSessionService.class:?]
+	at net.minecraft.client.Minecraft.func_181037_M(Minecraft.java:2915) [Minecraft.class:?]
+	at net.minecraft.client.resources.SkinManager$3.run(SkinManager.java:130) [SkinManager$3.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) [?:1.8.0_66]
+	at java.util.concurrent.FutureTask.run(Unknown Source) [?:1.8.0_66]
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source) [?:1.8.0_66]
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source) [?:1.8.0_66]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_66]
+[03:12:48] [Server thread/FATAL]: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.util.concurrent.FutureTask.report(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.get(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:23) [Util.class:?]
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:730) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:675) [MinecraftServer.class:?]
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:159) [IntegratedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:542) [MinecraftServer.class:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_66]
+Caused by: java.lang.NullPointerException
+	at net.minecraft.tileentity.TileEntityNote.triggerNote(TileEntityNote.java:43) ~[TileEntityNote.class:?]
+	at com.mark.nbgui.Message$Handler$1.run(Message.java:61) ~[Message$Handler$1.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.run(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:22) ~[Util.class:?]
+	... 5 more
+[03:12:53] [Server thread/FATAL]: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.util.concurrent.FutureTask.report(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.get(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:23) [Util.class:?]
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:730) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:675) [MinecraftServer.class:?]
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:159) [IntegratedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:542) [MinecraftServer.class:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_66]
+Caused by: java.lang.NullPointerException
+	at net.minecraft.tileentity.TileEntityNote.triggerNote(TileEntityNote.java:43) ~[TileEntityNote.class:?]
+	at com.mark.nbgui.Message$Handler$1.run(Message.java:61) ~[Message$Handler$1.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.run(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:22) ~[Util.class:?]
+	... 5 more
+[03:12:54] [Server thread/FATAL]: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.util.concurrent.FutureTask.report(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.get(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:23) [Util.class:?]
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:730) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:675) [MinecraftServer.class:?]
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:159) [IntegratedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:542) [MinecraftServer.class:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_66]
+Caused by: java.lang.NullPointerException
+	at net.minecraft.tileentity.TileEntityNote.triggerNote(TileEntityNote.java:43) ~[TileEntityNote.class:?]
+	at com.mark.nbgui.Message$Handler$1.run(Message.java:61) ~[Message$Handler$1.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.run(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:22) ~[Util.class:?]
+	... 5 more
+[03:13:07] [Server thread/FATAL]: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.util.concurrent.FutureTask.report(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.get(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:23) [Util.class:?]
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:730) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:675) [MinecraftServer.class:?]
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:159) [IntegratedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:542) [MinecraftServer.class:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_66]
+Caused by: java.lang.NullPointerException
+	at net.minecraft.tileentity.TileEntityNote.triggerNote(TileEntityNote.java:43) ~[TileEntityNote.class:?]
+	at com.mark.nbgui.Message$Handler$1.run(Message.java:61) ~[Message$Handler$1.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.run(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:22) ~[Util.class:?]
+	... 5 more
+[03:13:19] [Server thread/FATAL]: Error executing task
+java.util.concurrent.ExecutionException: java.lang.NullPointerException
+	at java.util.concurrent.FutureTask.report(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.get(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:23) [Util.class:?]
+	at net.minecraft.server.MinecraftServer.updateTimeLightAndEntities(MinecraftServer.java:730) [MinecraftServer.class:?]
+	at net.minecraft.server.MinecraftServer.tick(MinecraftServer.java:675) [MinecraftServer.class:?]
+	at net.minecraft.server.integrated.IntegratedServer.tick(IntegratedServer.java:159) [IntegratedServer.class:?]
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:542) [MinecraftServer.class:?]
+	at java.lang.Thread.run(Unknown Source) [?:1.8.0_66]
+Caused by: java.lang.NullPointerException
+	at net.minecraft.tileentity.TileEntityNote.triggerNote(TileEntityNote.java:43) ~[TileEntityNote.class:?]
+	at com.mark.nbgui.Message$Handler$1.run(Message.java:61) ~[Message$Handler$1.class:?]
+	at java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source) ~[?:1.8.0_66]
+	at java.util.concurrent.FutureTask.run(Unknown Source) ~[?:1.8.0_66]
+	at net.minecraft.util.Util.func_181617_a(Util.java:22) ~[Util.class:?]
+	... 5 more
+[03:13:20] [Server thread/INFO]: Saving and pausing game...
+[03:13:20] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[03:13:20] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[03:13:20] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[03:13:21] [Client thread/INFO]: Stopping!
+[03:13:21] [Client thread/INFO]: SoundSystem shutting down...
+[03:13:21] [Server thread/INFO]: Stopping server
+[03:13:21] [Server thread/INFO]: Saving players
+[03:13:21] [Server thread/INFO]: Saving worlds
+[03:13:21] [Server thread/INFO]: Saving chunks for level 'Test'/Overworld
+[03:13:21] [Server thread/INFO]: Saving chunks for level 'Test'/Nether
+[03:13:21] [Server thread/INFO]: Saving chunks for level 'Test'/The End
+[03:13:21] [Client thread/WARN]: Author: Paul Lamb, www.paulscode.com
