@@ -18,10 +18,10 @@ public class EventHandlerCommon {
         //CHANGE EVENT
     }
 
-    /*@SubscribeEvent
+    @SubscribeEvent
     public void noteBlockPlay(NoteBlockEvent.Play event) {
         //PLAY OVERRIDDEN
-    }*/
+    }
 
 	@SubscribeEvent
     public void playerInteract(PlayerInteractEvent event) {
@@ -37,6 +37,9 @@ public class EventHandlerCommon {
 
                 event.useBlock = Event.Result.DENY;
     		}
+    		//DEBUG
+    		System.out.println("POS: " + event.pos);
+    		System.out.println("BLOCK: " + block);
     	}
     }
 }
