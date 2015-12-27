@@ -95,35 +95,37 @@ public class GUI extends GuiScreen {
     }
 
     @Override
-    public void keyTyped(char c, int i) throws IOException{
-    	if (this.noteTextField.textboxKeyTyped(c, i)) {
-    		if (i == Keyboard.KEY_RETURN) {
+    public void keyTyped(char character, int keyCode) throws IOException {
+    	if (this.noteTextField.textboxKeyTyped(character, keyCode)) {
+    		if (keyCode == Keyboard.KEY_RETURN) {
     			this.noteTextField.setFocused(false);
+                NoteUtils.getNoteFromInput(GUI.noteTextField.getText());
     			//TODO add server packet stuff?
     		}
     	}
-    	else if (this.octaveTextField.textboxKeyTyped(c, i)) {
-    		if (i == Keyboard.KEY_RETURN) {
+    	else if (this.octaveTextField.textboxKeyTyped(character, keyCode)) {
+    		if (keyCode == Keyboard.KEY_RETURN) {
     			this.octaveTextField.setFocused(false);
+    			NoteUtils.getOctaveFromInput(GUI.octaveTextField.getText());
     			//TODO add server packet stuff?
     		}
     	}
     	else {
-    		super.keyTyped(c, i);
+    		super.keyTyped(character, keyCode);
     	}
     	}
     
     @Override
-    public void mouseClicked(int i, int j, int k) throws IOException {
-    	super.mouseClicked(i, j, k);
+    public void mouseClicked(int x, int y, int clickedButon) throws IOException {
+    	super.mouseClicked(x, y, clickedButon);
     	if (this.noteTextField.isFocused()) {
     		this.noteTextField.setText("");   		
     	}
     	else if (this.noteTextField.isFocused()) {
     		this.noteTextField.setText("");   		
     	}
-    	this.noteTextField.mouseClicked(i, j, k);
-    	this.octaveTextField.mouseClicked(i, j, k);
+    	this.noteTextField.mouseClicked(x, y, clickedButon);
+    	this.octaveTextField.mouseClicked(x, y, clickedButon);
     	}
     
     @Override	
