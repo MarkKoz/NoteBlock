@@ -1,6 +1,8 @@
 package com.mark.nbgui;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
@@ -8,9 +10,12 @@ import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.NoteBlockEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventHandlerCommon {
     @SubscribeEvent
@@ -24,10 +29,17 @@ public class EventHandlerCommon {
         //PLAY OVERRIDDEN
     }*/
     
-    @SubscribeEvent  
+    @SubscribeEvent
+    @SideOnly(Side.CLIENT)
     public void onKeyInput(InputEvent.KeyInputEvent event) {
-        if(KeyBindings.pong.isPressed())
-            System.out.println("[DEBUG] Return Constant");
+    	Minecraft mc = Minecraft.getMinecraft();
+        if (KeyBindings.returnInput.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus) {
+        	System.out.println("[DEBUG] Return Constant");
+			/*if (mc.currentScreen == GUI) {
+    			// set some static value to true inside YourGuiClass
+    			System.out.println("[DEBUG] Return Constant Screen Checked");
+    		}*/
+        }
     }
 
 	@SubscribeEvent

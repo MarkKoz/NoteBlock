@@ -1,0 +1,27 @@
+# Key Bindings
+key.categories.nbgui=Нотный блокический графический пользовательский интерфейс (NBGUI)
+key.nbgui.return=Подтвердить ввод текста
+
+# Buttons
+button.nbgui.playNote=Поиграть нота
+
+# Key Bindings
+nbgui.key.category=Нотный блокический графический пользовательский интерфейс (NBGUI)
+nbgui.key.return=Подтвердить ввод текста
+
+# Buttons
+nbgui.button.playNote=Поиграть нота
+
+# Strings
+nbgui.string.gui.instrument=Инструмент:
+nbgui.string.gui.note=Нота:
+nbgui.string.gui.octave=Октава:
+
+nbgui.string.instrument.piano=Пианино
+nbgui.string.instrument.bassdrum=Бас-барабан
+nbgui.string.instrument.snaredrum=Малый барабан
+nbgui.string.instrument.clicks=Щелчки
+nbgui.string.instrument.doublebass=Контрабас
+
+nbgui.string.note.sharp=диез
+nbgui.string.note.flat=бемоль

@@ -1,0 +1,20 @@
+# Key Bindings
+nbgui.key.category=otblock grafiska användargränssnitt (NBGUI)
+nbgui.key.return=Godkänna textinmatning
+
+# Buttons
+nbgui.button.playNote=Spela noten
+
+# Strings
+nbgui.string.gui.instrument=Instrument:
+nbgui.string.gui.note=Noten:
+nbgui.string.gui.octave=Oktav:
+
+nbgui.string.instrument.piano=Piano
+nbgui.string.instrument.bassdrum=Bastrumma
+nbgui.string.instrument.snaredrum=Virveltrumma
+nbgui.string.instrument.clicks=Klickar
+nbgui.string.instrument.doublebass=Kontrabas
+
+nbgui.string.note.sharp=iss
+nbgui.string.note.flat=ess

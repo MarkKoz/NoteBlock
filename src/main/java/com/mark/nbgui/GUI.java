@@ -23,9 +23,9 @@ import org.lwjgl.input.Keyboard;
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
 
-    private static String instrumentText = "Instrument: {instrument}";
-    private static String pitchText = "Pitch: {pitch}";
-    private static String octaveText = "Octave: {octave}";
+    private static String instrumentText = I18n.format("nbgui.string.gui.instrument", new Object[0])+" {instrument}";
+    private static String noteText = I18n.format("nbgui.string.gui.note", new Object[0])+" {note}";
+    private static String octaveText = I18n.format("nbgui.string.gui.octave", new Object[0])+" {octave}";
 
     private TileEntityNote entityNote;
     private BlockNote blockNote;
@@ -56,7 +56,7 @@ public class GUI extends GuiScreen {
                     this.width / 2, 30, 0xFFFFFFFF);
             //TODO Remove note and octave strings; redundant with text fields
             this.drawCenteredString(this.fontRendererObj,
-                    GUI.pitchText.replace("{pitch}", 
+                    GUI.noteText.replace("{note}", 
                     NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote))),
                     this.width / 2, 50, 0xFFFFFFFF);
             this.drawCenteredString(this.fontRendererObj,
@@ -71,7 +71,7 @@ public class GUI extends GuiScreen {
 		Keyboard.enableRepeatEvents(false);
 		
 		//Play Button
-		GuiButton playButton = new GuiButton(1, this.width / 2 - 30, 90, 60, 20, "Play");	
+		GuiButton playButton = new GuiButton(1, this.width / 2 - 30, 90, 60, 20, I18n.format("nbgui.button.playNote", new Object[0]));	
 		this.buttonList.add(playButton);
 		
 		//Note +1 Button

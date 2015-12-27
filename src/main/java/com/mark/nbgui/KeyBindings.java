@@ -4,12 +4,15 @@ import org.lwjgl.input.Keyboard;
 
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class KeyBindings {
 
     // Declare KeyBindings
-    public static KeyBinding pong;
-
+    public static KeyBinding returnInput;
+    
+    @SideOnly(Side.CLIENT)
     public static void init() {
     	
     	/*Vanilla Categories
@@ -28,10 +31,10 @@ public class KeyBindings {
         // Define unlocalised binding name
         // the category with unlocalised name
         // key code or LWJGL constant
-        pong = new KeyBinding("key.returnConstant", Keyboard.KEY_RETURN, "key.categories.inventory");
+    	returnInput = new KeyBinding("nbgui.key.return", Keyboard.KEY_RETURN, "nbgui.key.category");
 
         // Register KeyBindings to the ClientRegistry
-        ClientRegistry.registerKeyBinding(pong);
+        ClientRegistry.registerKeyBinding(returnInput);
     }
 
 }

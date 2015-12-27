@@ -1,0 +1,11 @@
+# Key Bindings
+nbgui.key.category=Note Block GUI
+nbgui.key.return=Confirm Text Input
+
+# Buttons
+nbgui.button.playNote=Play Note
+
+# Strings
+nbgui.string.gui.instrument=Instrument:
+nbgui.string.gui.note=Note:
+nbgui.string.gui.octave=Octave:

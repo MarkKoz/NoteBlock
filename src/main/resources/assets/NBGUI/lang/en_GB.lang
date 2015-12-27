@@ -1,0 +1,21 @@
+# Key Bindings
+nbgui.key.category=Note Block GUI
+nbgui.key.return=Confirm Text Input
+
+# Buttons
+nbgui.button.playNote=Play Note
+
+# Strings
+nbgui.string.gui.instrument=Instrument:
+nbgui.string.gui.note=Note:
+nbgui.string.gui.octave=Octave:
+
+nbgui.string.instrument.piano=Piano
+nbgui.string.instrument.bassdrum=Bass drum
+nbgui.string.instrument.snaredrum=Snare drum
+nbgui.string.instrument.clicks=Clicks
+nbgui.string.instrument.doublebass=Double bass
+
+nbgui.string.note.sharp=sharp
+nbgui.string.note.flat=flat
+
