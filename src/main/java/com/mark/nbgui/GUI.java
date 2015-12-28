@@ -7,11 +7,15 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.world.NoteBlockEvent;
 import net.minecraftforge.event.world.NoteBlockEvent.Octave;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.internal.FMLMessage;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -29,15 +33,30 @@ public class GUI extends GuiScreen {
     private static String noteText = I18n.format("nbgui.string.gui.note", new Object[0])+" {note}";
     private static String octaveText = I18n.format("nbgui.string.gui.octave", new Object[0])+" {octave}";
 
+    private int x;
+    private int y;
+    private int z;
     private TileEntityNote entityNote;
     private BlockNote blockNote;
     private Block underBlock;
     
     public static GuiTextField noteTextField;
     public static GuiTextField octaveTextField;
-
+    
     public GUI(EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        
+        System.out.println("[DEBUG] GWorld: "+world);
+        System.out.println("[DEBUG] GPos: "+pos);
+        System.out.println("[DEBUG] GPosX: "+x);
+        System.out.println("[DEBUG] GPosY: "+y);
+        System.out.println("[DEBUG] GPosZ: "+z);
+        //System.out.println("[DEBUG] GNote: "+entityNote);
+        //System.out.println("[DEBUG] GBlock: "+blockNote);
+        //System.out.println("[DEBUG] GUnder: "+underBlock);
 
         this.entityNote = (TileEntityNote) world.getTileEntity(pos);
         this.blockNote = (BlockNote) world.getBlockState(pos).getBlock();
@@ -120,6 +139,7 @@ public class GUI extends GuiScreen {
 	
     @Override
     public void keyTyped(char character, int keyCode) throws IOException {
+    	super.keyTyped(character, keyCode);
     	if (this.noteTextField.textboxKeyTyped(character, keyCode)) {
     		
     		//DEBUG
@@ -145,9 +165,7 @@ public class GUI extends GuiScreen {
     			this.octaveTextField.setFocused(false);
     			//TODO add server packet stuff
     		}
-    	} else {
-    		super.keyTyped(character, keyCode);
-    	}
+    	} 
     }
     
     @Override
@@ -177,16 +195,16 @@ public class GUI extends GuiScreen {
     	Keyboard.enableRepeatEvents(false);
         super.onGuiClosed();
     }
-
+    
     @Override
 	protected void actionPerformed(GuiButton button) throws IOException {
-		switch (button.id) {
-			case 1: //Play
-                Packet playNote = new Packet(EventHandlerCommon.entityNoteBlock);
+    	switch (button.id) {
+    		case 1: //Play
+    			Packet playNote = new Packet(x, y, z);
+                //pos.getX(), pos.getY(), pos.getZ()
                 //playNote.setText("play");
-                NBGUI.network.sendToServer(playNote);
-                
-                break;
+    			NBGUI.network.sendToServer(playNote);          
+    			break;
 			case 2: //Note +1
 				break;
 			case 3: //Note -1
@@ -196,7 +214,7 @@ public class GUI extends GuiScreen {
 			case 5: //Octave -1
 				break;
 		}
-	}
+    }
 
     @Override
     public boolean doesGuiPauseGame() {

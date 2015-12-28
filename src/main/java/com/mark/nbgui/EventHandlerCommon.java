@@ -1,5 +1,7 @@
 package com.mark.nbgui;
 
+import com.mark.nbgui.packet.Packet;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,13 +20,13 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventHandlerCommon {	
-	public static TileEntityNote entityNoteBlock;
+	//public static Packet entityNoteBlock;
 	
-    @SubscribeEvent
+    /*@SubscribeEvent
     public void noteBlockChange(NoteBlockEvent.Change event) {
         event.setCanceled(true);
         //CHANGE EVENT
-    }
+    }*/
 
     /*@SubscribeEvent
     public void noteBlockPlay(NoteBlockEvent.Play event) {
@@ -37,6 +39,8 @@ public class EventHandlerCommon {
     	Minecraft mc = Minecraft.getMinecraft();
         if (KeyBindings.returnInput.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus) {
         	System.out.println("[DEBUG] Return Constant");
+        	System.out.println("[DEBUG] KeyCode: "+KeyBindings.returnInput.getKeyCode());
+        	System.out.println("[DEBUG] KeyCodeDefault: "+KeyBindings.returnInput.getKeyCodeDefault());
 			/*if (mc.currentScreen == GUI) {
     			// set some static value to true inside YourGuiClass
     			System.out.println("[DEBUG] Return Constant Screen Checked");
@@ -51,7 +55,7 @@ public class EventHandlerCommon {
     		Block block = world.getBlockState(event.pos).getBlock();
     		if (block.equals(Blocks.noteblock)) {
                 event.entityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
-                entityNoteBlock = (TileEntityNote) world.getTileEntity(event.pos);
+                //entityNoteBlock = new Packet(event.pos.getX(), event.pos.getY(), event.pos.getZ());
                 
                 event.useBlock = Event.Result.DENY;
     		}
