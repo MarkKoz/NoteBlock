@@ -1,5 +1,7 @@
 package com.mark.nbgui;
 
+import com.mark.nbgui.packet.Packet;
+import com.mark.nbgui.packet.PacketHandler;
 import com.mark.nbgui.proxy.IProxy;
 import com.mark.nbgui.reference.Reference;
 
@@ -28,12 +30,12 @@ public class NBGUI {
     public static IProxy proxy;
     
     @EventHandler public void preInit(FMLPreInitializationEvent event) {
+        network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.channel);
+        network.registerMessage(PacketHandler.class, Packet.class, 0, Side.SERVER);
     }
 	
     @EventHandler
     public void init(FMLInitializationEvent event) {
-        network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.channel);
-        network.registerMessage(Message.Handler.class, Message.class, 0, Side.SERVER);
         NetworkRegistry.INSTANCE.registerGuiHandler(NBGUI.instance, new GUIHandler());
     	MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
     	KeyBindings.init();

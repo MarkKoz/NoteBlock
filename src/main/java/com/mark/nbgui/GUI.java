@@ -20,6 +20,8 @@ import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
 
+import com.mark.nbgui.packet.Packet;
+
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
 
@@ -134,9 +136,9 @@ public class GUI extends GuiScreen {
             	System.out.println("[DEBUG]-------------------END-----------------------");
     			
     			//TODO add server packet stuff
-                Message msg = new Message();
-                msg.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText(), GUI.octaveTextField.getText()));
-                NBGUI.network.sendToServer(msg);   
+                /*Packet returnKeyNote = new Packet();
+                returnKeyNote.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText(), GUI.octaveTextField.getText()));
+                NBGUI.network.sendToServer(returnKeyNote);*/
     		}
     	} else if (this.octaveTextField.textboxKeyTyped(character, keyCode)) {
     		if (keyCode == 28) {
@@ -180,10 +182,11 @@ public class GUI extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
 		switch (button.id) {
 			case 1: //Play
-                Message msg = new Message(this.entityNote);
-                msg.setText("play");
-                NBGUI.network.sendToServer(msg);
-				break;
+                Packet playNote = new Packet(EventHandlerCommon.entityNoteBlock);
+                //playNote.setText("play");
+                NBGUI.network.sendToServer(playNote);
+                
+                break;
 			case 2: //Note +1
 				break;
 			case 3: //Note -1

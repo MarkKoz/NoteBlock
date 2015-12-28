@@ -17,7 +17,9 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EventHandlerCommon {
+public class EventHandlerCommon {	
+	public static TileEntityNote entityNoteBlock;
+	
     @SubscribeEvent
     public void noteBlockChange(NoteBlockEvent.Change event) {
         event.setCanceled(true);
@@ -48,12 +50,9 @@ public class EventHandlerCommon {
     		World world = event.world;
     		Block block = world.getBlockState(event.pos).getBlock();
     		if (block.equals(Blocks.noteblock)) {
-                event.entityPlayer.openGui(NBGUI.instance,
-                        GUI.GUI_ID, world,
-                        event.pos.getX(),
-                        event.pos.getY(),
-                        event.pos.getZ());
-
+                event.entityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
+                entityNoteBlock = (TileEntityNote) world.getTileEntity(event.pos);
+                
                 event.useBlock = Event.Result.DENY;
     		}
     	}
