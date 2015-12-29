@@ -17,16 +17,12 @@ import net.minecraftforge.event.world.NoteBlockEvent.Octave;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.internal.FMLMessage;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.io.IOException;
 
 import org.lwjgl.input.Keyboard;
 
 import com.mark.nbgui.packet.Packet;
-import com.mark.nbgui.packet.PacketHandler;
-import com.mark.nbgui.packet.PacketNote;
 
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
@@ -42,8 +38,8 @@ public class GUI extends GuiScreen {
     private BlockNote blockNote;
     private Block underBlock;
     
-    public static GuiTextField noteTextField;
-    public static GuiTextField octaveTextField;
+    private GuiTextField noteTextField;
+    private GuiTextField octaveTextField;
     
     public GUI(EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
@@ -63,26 +59,25 @@ public class GUI extends GuiScreen {
 	
 	@Override
     public void drawScreen(int x, int y, float f) {
-			this.drawDefaultBackground();
-			super.drawScreen(x, y, f);
+		this.drawDefaultBackground();
+		super.drawScreen(x, y, f);
 			
-			this.noteTextField.drawTextBox();
-			this.octaveTextField.drawTextBox();
+		this.noteTextField.drawTextBox();
+		this.octaveTextField.drawTextBox();
 			
-            this.drawCenteredString(this.fontRendererObj,
-                    GUI.instrumentText.replace("{instrument}",
-                    NoteUtils.getInstrumentString(NoteUtils.getNoteBlockInstrument(this.underBlock))),
-                    this.width / 2, 30, 0xFFFFFFFF);
-            //TODO Remove note and octave strings; redundant with text fields
-            this.drawCenteredString(this.fontRendererObj,
-                    GUI.noteText.replace("{note}", 
-                    NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote))),
-                    this.width / 2, 50, 0xFFFFFFFF);
-            this.drawCenteredString(this.fontRendererObj,
-                    GUI.octaveText.replace("{octave}", 
-                    NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote))),
-                    this.width / 2, 70, 0xFFFFFFFF);
-            
+        this.drawCenteredString(this.fontRendererObj, 
+        	GUI.instrumentText.replace("{instrument}", 
+        	NoteUtils.getInstrumentString(NoteUtils.getNoteBlockInstrument(this.underBlock))), 
+        	this.width / 2, 30, 0xFFFFFFFF);
+        //TODO Remove note and octave strings; redundant with text fields
+        this.drawCenteredString(this.fontRendererObj, 
+        	GUI.noteText.replace("{note}",  
+        	NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote))), 
+        	this.width / 2, 50, 0xFFFFFFFF);
+        this.drawCenteredString(this.fontRendererObj,
+            GUI.octaveText.replace("{octave}", 
+            NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote))),
+            this.width / 2, 70, 0xFFFFFFFF);     
     }
 	
 	@Override
@@ -151,23 +146,24 @@ public class GUI extends GuiScreen {
         	if (note.equals("")) {
         		this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
         	} else {
-        		int noteParsed = NoteUtils.parsePitch(note, octave);
+        		int pitch = NoteUtils.parsePitch(note, octave);
         		
-        		if (noteParsed == 12) {
+        		if (pitch == 12) {
         			this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
         		} else {
-        		PacketNote notePacket = new PacketNote(noteParsed);
-        		this.noteTextField.setText(NoteUtils.parseNoteStr(note)); //TODO Get note from server (from the TE)
-        		//NBGUI.network.sendToServer(notePacket);
+        			Packet notePacket = new Packet(x, y, z, pitch, "changePitch");
+        			NBGUI.network.sendToServer(notePacket);
+        			
+        			this.noteTextField.setText(NoteUtils.parseNoteStr(note)); //TODO Get note from server (from the TE)
         		
-        		//DEBUG
-        		System.out.println("[DEBUG] GUI Note Str: "+note);
-        		System.out.println("[DEBUG] GUI Octave Str: "+octave);
-        		System.out.println("[DEBUG] GUI Note Parse1: "+NoteUtils.parseNote(note));
-        		System.out.println("[DEBUG] GUI Note Parse2: "+NoteUtils.parseNoteInt(note));
-        		System.out.println("[DEBUG] GUI Note Parse3: "+NoteUtils.parseNoteStr(note));
-        		System.out.println("[DEBUG] GUI Note Parse4: "+noteParsed);
-        		System.out.println("[DEBUG] GUI notePacket: "+notePacket);
+        			//DEBUG
+        			System.out.println("[DEBUG] GUI Note Str: "+note);
+        			System.out.println("[DEBUG] GUI Octave Str: "+octave);
+        			System.out.println("[DEBUG] GUI Note Parse1: "+NoteUtils.parseNote(note));
+        			System.out.println("[DEBUG] GUI Note Parse2: "+NoteUtils.parseNoteInt(note));
+        			System.out.println("[DEBUG] GUI Note Parse3: "+NoteUtils.parseNoteStr(note));
+        			System.out.println("[DEBUG] GUI Note Parse4: "+pitch);
+        			System.out.println("[DEBUG] GUI notePacket: "+notePacket);
         		}
         	}
         
@@ -184,9 +180,12 @@ public class GUI extends GuiScreen {
             	
             	if (octaveParsed == 0) {
             		this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
-            	} else {               	
-                	PacketNote octavePacket = new PacketNote(octaveParsed);
-                	//NBGUI.network.sendToServer(octavePacket);
+            	} else {
+            		int pitch = NoteUtils.parsePitch(note, octave);
+            		
+                	Packet octavePacket = new Packet(x, y, z, pitch, "changePitch");
+                	NBGUI.network.sendToServer(octavePacket);
+                	
                 	this.octaveTextField.setText(Integer.toString(octaveParsed)); //TODO Get octave from server (from TE)
                 	
             		//DEBUG
@@ -236,7 +235,7 @@ public class GUI extends GuiScreen {
 	protected void actionPerformed(GuiButton button) throws IOException {
     	switch (button.id) {
     		case 1: //Play
-    			Packet playNote = new Packet(x, y, z);
+    			Packet playNote = new Packet(x, y, z, 0, "playPitch");
     			//playNote.setText("play");
     			NBGUI.network.sendToServer(playNote);
     			System.out.println(this.entityNote);

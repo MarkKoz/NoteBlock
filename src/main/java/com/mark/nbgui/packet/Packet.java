@@ -12,15 +12,19 @@ public class Packet implements IMessage {
     protected int x;
     protected int y;
     protected int z;
+    protected int pitch;
+    protected String instruction;
 
     public Packet() {
         //this.compound = new NBTTagCompound();
     }
 
-    public Packet(int x, int y, int z) {
+    public Packet(int x, int y, int z, int pitch, String instruction) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.pitch = pitch;
+        this.instruction = instruction;
         		 	
     	//this();
         //entityNote.writeToNBT(this.compound);
@@ -40,6 +44,8 @@ public class Packet implements IMessage {
     	x = buf.readInt();
     	y = buf.readInt();
     	z = buf.readInt();
+    	pitch = buf.readInt();
+    	instruction = ByteBufUtils.readUTF8String(buf);
     }
 
     @Override
@@ -48,5 +54,7 @@ public class Packet implements IMessage {
     	buf.writeInt(x);
     	buf.writeInt(y);
     	buf.writeInt(z);
+    	buf.writeInt(pitch);
+    	ByteBufUtils.writeUTF8String(buf, instruction);
     }
 }

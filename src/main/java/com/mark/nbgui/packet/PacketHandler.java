@@ -23,11 +23,21 @@ public class PacketHandler implements IMessageHandler<Packet, Packet> {
 				World world = (World) mainThread;
 				BlockPos pos = new BlockPos(packet.x, packet.y, packet.z);
 				TileEntityNote noteBlock = (TileEntityNote) world.getTileEntity(pos);
-				noteBlock.triggerNote(world, pos);
+				if (packet.instruction.equals("playPitch")) {
+					noteBlock.triggerNote(world, pos);
 				
-				System.out.println("Server: "+noteBlock);
-				System.out.println("Server: "+NoteUtils.getBlockNote(noteBlock));
-				System.out.println("Server: "+NoteUtils.getNoteString(NoteUtils.getBlockNote(noteBlock)));
+					System.out.println("[DEBUG] [Server] TE: "+noteBlock);
+					System.out.println("[DEBUG] [Server] TE Note: "+NoteUtils.getBlockNote(noteBlock));
+					System.out.println("[DEBUG] [Server] TE Note String: "+NoteUtils.getNoteString(NoteUtils.getBlockNote(noteBlock)));
+				} else if (packet.instruction.equals("changePitch")) {
+					noteBlock.note = (byte) packet.pitch;
+					
+					System.out.println("[DEBUG] [Server] Pitch Packet: "+packet.pitch);
+					System.out.println("[DEBUG] [Server] Pitch Byte: "+(byte) packet.pitch);
+					System.out.println("[DEBUG] [Server] TE: "+noteBlock);
+					System.out.println("[DEBUG] [Server] TE Note: "+NoteUtils.getBlockNote(noteBlock));
+					System.out.println("[DEBUG] [Server] TE Note String: "+NoteUtils.getNoteString(NoteUtils.getBlockNote(noteBlock)));
+				}
 				
 				//noteBlock.readFromNBT(packet.compound);
 				//noteBlock.getDescriptionPacket()
