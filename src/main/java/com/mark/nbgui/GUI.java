@@ -152,18 +152,21 @@ public class GUI extends GuiScreen {
         	if (note.equals("")) {
         		this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
         	} else {
-        		int noteParsed = NoteUtils.parseNote(note, octave);
+        		int noteParsed = NoteUtils.parsePitch(note, octave);
         		if (noteParsed == 12) {
         			this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
         		} else {
         		PacketNote notePacket = new PacketNote(noteParsed);
-        		this.noteTextField.setText("");
+        		this.noteTextField.setText(NoteUtils.parseNoteStr(note)); //TODO Get note from server (from the TE) rather than client
         		//NBGUI.network.sendToServer(notePacket);
         		
         		//DEBUG
-        		System.out.println("[DEBUG] GUI Note :"+note);
-        		System.out.println("[DEBUG] GUI Octave :"+octave);
-        		System.out.println("[DEBUG] GUI noteParsed :"+noteParsed);
+        		System.out.println("[DEBUG] GUI Note Str:"+note);
+        		System.out.println("[DEBUG] GUI Octave Str :"+octave);
+        		System.out.println("[DEBUG] GUI Note Parse1:"+NoteUtils.parseNote(note));
+        		System.out.println("[DEBUG] GUI Note Parse2:"+NoteUtils.parseNoteInt(note));
+        		System.out.println("[DEBUG] GUI Note Parse3:"+NoteUtils.parseNoteStr(note));
+        		System.out.println("[DEBUG] GUI Note Parse4 :"+noteParsed);
         		System.out.println("[DEBUG] GUI notePacket :"+notePacket);
         		}
         	}
