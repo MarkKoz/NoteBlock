@@ -1,7 +1,9 @@
 package com.mark.nbgui;
 
 import com.mark.nbgui.packet.Packet;
+import com.mark.nbgui.packet.PacketClient;
 import com.mark.nbgui.packet.PacketHandler;
+import com.mark.nbgui.packet.PacketHandlerClient;
 import com.mark.nbgui.proxy.IProxy;
 import com.mark.nbgui.reference.Reference;
 
@@ -32,6 +34,7 @@ public class NBGUI {
     @EventHandler public void preInit(FMLPreInitializationEvent event) {
         network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.channel);
         network.registerMessage(PacketHandler.class, Packet.class, 0, Side.SERVER);
+        network.registerMessage(PacketHandlerClient.class, PacketClient.class, 1, Side.CLIENT);
     }
 	
     @EventHandler
