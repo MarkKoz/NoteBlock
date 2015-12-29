@@ -1,28 +1,20 @@
 package com.mark.nbgui;
 
+import com.mark.nbgui.packet.Packet;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockNote;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.player.PlayerInteractEvent;
-import net.minecraftforge.event.world.NoteBlockEvent;
-import net.minecraftforge.event.world.NoteBlockEvent.Octave;
-import net.minecraftforge.fml.common.eventhandler.Event;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import net.minecraftforge.fml.common.network.internal.FMLMessage;
-
-import java.io.IOException;
-
 import org.lwjgl.input.Keyboard;
 
-import com.mark.nbgui.packet.Packet;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
@@ -39,10 +31,21 @@ public class GUI extends GuiScreen {
     
     private GuiTextField noteTextField;
     private GuiTextField octaveTextField;
-    
-    public static String noteStr = "";
-    public static String octaveStr = "";
-    
+
+	public static List<IStringReceived> notesReceived = new ArrayList<IStringReceived>();
+	public static List<IStringReceived> octavesReceived = new ArrayList<IStringReceived>();
+
+    public static void addNoteReceived(IStringReceived received, int x, int y, int z) {
+        NBGUI.network.sendToServer(new Packet(x, y, z, 0, "getStrings"));
+        GUI.notesReceived.add(received);
+    }
+
+    public static void addOctaveReceived(IStringReceived received, int x, int y, int z) {
+        NBGUI.network.sendToServer(new Packet(x, y, z, 0, "getStrings"));
+        GUI.octavesReceived.add(received);
+    }
+
+
     public GUI(EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
         this.x = x;
@@ -61,19 +64,13 @@ public class GUI extends GuiScreen {
         System.out.println("[DEBUG] [GUI] Under: "+this.underBlock);*/
     }
 	
-    public String getNoteString() {
-    	Packet getStrings = new Packet(x, y, z, 0, "getStrings");
-		NBGUI.network.sendToServer(getStrings);
-		System.out.println("[DEBUG] [GUI] noteStr: "+noteStr);
-    	return noteStr;
+    /*public String getNoteString() {
+		return null;
     }
     
     public String getOctaveString() {
-    	Packet getStrings = new Packet(x, y, z, 0, "getStrings");
-		NBGUI.network.sendToServer(getStrings);
-		System.out.println("[DEBUG] [GUI] octaveStr: "+octaveStr);
-    	return octaveStr;
-    }
+		return null;
+    }*/
     
 	@Override
     public void drawScreen(int x, int y, float f) {
@@ -130,7 +127,9 @@ public class GUI extends GuiScreen {
 		this.noteTextField.setFocused(false);
 		this.noteTextField.setCanLoseFocus(true);
 		//this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
-		this.noteTextField.setText(getNoteString());
+
+        GUI.addNoteReceived(str -> GUI.this.noteTextField.setText(str), this.x, this.y, this.z);
+//		this.noteTextField.setText(getNoteString());
 		this.noteTextField.setTextColor(-1);
 		this.noteTextField.setDisabledTextColour(-1);
 		this.noteTextField.setEnableBackgroundDrawing(true);
@@ -145,7 +144,8 @@ public class GUI extends GuiScreen {
 		this.octaveTextField.setEnableBackgroundDrawing(true);
 		this.octaveTextField.setMaxStringLength(1);
 		//this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
-		this.octaveTextField.setText(getOctaveString());
+        GUI.addOctaveReceived(str -> GUI.this.octaveTextField.setText(str), this.x, this.y, this.z);
+//		this.octaveTextField.setText(getOctaveString());
 		
 		//TODO Add option to merge note and octave text fields into one.
     }
@@ -165,19 +165,19 @@ public class GUI extends GuiScreen {
         	//TODO Send packets
         	if (note.equals("")) {
         		//this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
-        		this.noteTextField.setText(getNoteString());
+                GUI.addNoteReceived(str -> GUI.this.noteTextField.setText(str), this.x, this.y, this.z);
         	} else {
         		int pitch = NoteUtils.parsePitch(note, octave);
         		
         		if (pitch == 12) {
         			//this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
-        			this.noteTextField.setText(getNoteString());
+                    GUI.addNoteReceived(str -> GUI.this.noteTextField.setText(str), this.x, this.y, this.z);
         		} else {
         			Packet notePacket = new Packet(x, y, z, pitch, "changePitch");
         			NBGUI.network.sendToServer(notePacket);
         			
         			//this.noteTextField.setText(NoteUtils.parseNoteStr(note)); //TODO Get note from server (from the TE)
-        			this.noteTextField.setText(getNoteString());
+                    GUI.addNoteReceived(str -> GUI.this.noteTextField.setText(str), this.x, this.y, this.z);
         		
         			//DEBUG
         			/*System.out.println("[DEBUG] [GUI] Note Str: "+note);
@@ -196,7 +196,7 @@ public class GUI extends GuiScreen {
 			//TODO Send packets
         	if (this.octaveTextField.getText().equals("") ) {
         		//this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
-        		this.octaveTextField.setText(getOctaveString());
+                GUI.addOctaveReceived(str -> GUI.this.octaveTextField.setText(str), this.x, this.y, this.z);
         	} else {
             	String note = this.noteTextField.getText();
             	int octave = Integer.parseInt(this.octaveTextField.getText());
@@ -205,7 +205,7 @@ public class GUI extends GuiScreen {
             	if (octaveParsed == 0) {
             		System.out.println("[DEBUG] [GUI] Octave noteStr: "+note);
             		//this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
-            		this.octaveTextField.setText(getOctaveString());
+                    GUI.addOctaveReceived(str -> GUI.this.octaveTextField.setText(str), this.x, this.y, this.z);
             	} else {
             		int pitch = NoteUtils.parsePitch(note, octave);
             		
@@ -213,7 +213,7 @@ public class GUI extends GuiScreen {
                 	NBGUI.network.sendToServer(octavePacket);
                 	
                 	//this.octaveTextField.setText(Integer.toString(octaveParsed)); //TODO Get octave from server (from TE)
-                	this.octaveTextField.setText(getOctaveString());
+                    GUI.addOctaveReceived(str -> GUI.this.octaveTextField.setText(str), this.x, this.y, this.z);
                 	
             		//DEBUG
             		/*System.out.println("[DEBUG] [GUI] Note Str: "+note);
@@ -248,9 +248,9 @@ public class GUI extends GuiScreen {
     		this.octaveTextField.setText("");
     		}
     	} 
-    	if (this.noteTextField.isFocused() == false) {
+    	if (!this.noteTextField.isFocused()) {
     		//this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
-    	} else if (this.octaveTextField.isFocused() == false) {
+    	} else if (!this.octaveTextField.isFocused()) {
     		//this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
     	}
     	/*Debug
@@ -278,7 +278,8 @@ public class GUI extends GuiScreen {
     			Packet playNote = new Packet(x, y, z, 0, "playPitch");
     			//playNote.setText("play");
     			NBGUI.network.sendToServer(playNote);
-    			System.out.println(getNoteString());
+                GUI.addNoteReceived(System.out::println, this.x, this.y, this.z);
+//    			System.out.println(getNoteString());
     			break;
 			case 2: //Note +1
 				break;
