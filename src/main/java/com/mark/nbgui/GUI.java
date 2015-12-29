@@ -25,6 +25,8 @@ import java.io.IOException;
 import org.lwjgl.input.Keyboard;
 
 import com.mark.nbgui.packet.Packet;
+import com.mark.nbgui.packet.PacketHandler;
+import com.mark.nbgui.packet.PacketNote;
 
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
@@ -49,13 +51,14 @@ public class GUI extends GuiScreen {
         this.y = y;
         this.z = z;
         
-        //TODO Returns null, fix.
-        //System.out.println("[DEBUG] GNote: "+entityNote);
-        //System.out.println("[DEBUG] GBlock: "+blockNote);
-        //System.out.println("[DEBUG] GUnder: "+underBlock);
         this.entityNote = (TileEntityNote) world.getTileEntity(pos);
-        this.blockNote = (BlockNote) world.getBlockState(pos).getBlock();
+        this.blockNote = (BlockNote) world.getBlockState(pos).getBlock(); //Unused
         this.underBlock = world.getBlockState(pos.down()).getBlock();
+        
+        //DEBUG
+        System.out.println("[DEBUG] GNote: "+this.entityNote);
+        System.out.println("[DEBUG] GBlock: "+this.blockNote);
+        System.out.println("[DEBUG] GUnder: "+this.underBlock);
     }
 	
 	@Override
@@ -135,14 +138,42 @@ public class GUI extends GuiScreen {
     @Override
     public void keyTyped(char character, int keyCode) throws IOException {
     	super.keyTyped(character, keyCode);
+    	this.noteTextField.textboxKeyTyped(character, keyCode);
+    	this.octaveTextField.textboxKeyTyped(character, keyCode);
     	if (keyCode == 28 && this.noteTextField.isFocused()) {
-        	System.out.println("[DEBUG] Character: "+character);
-        	System.out.println("[DEBUG] Code: "+keyCode);        	
-			//TODO Send packets
+        	//System.out.println("[DEBUG] Character: "+character);
+        	//System.out.println("[DEBUG] Code: "+keyCode);      
+        	this.noteTextField.setFocused(false);
+        	
+        	String note = this.noteTextField.getText();
+        	String octave = this.octaveTextField.getText();	
+        	
+        	//TODO Send packets
+        	if (note.equals("")) {
+        		this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
+        	} else {
+        		int noteParsed = NoteUtils.parseNote(note, octave);
+        		if (noteParsed == 12) {
+        			this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
+        		} else {
+        		PacketNote notePacket = new PacketNote(noteParsed);
+        		this.noteTextField.setText("");
+        		//NBGUI.network.sendToServer(notePacket);
+        		
+        		//DEBUG
+        		System.out.println("[DEBUG] GUI Note :"+note);
+        		System.out.println("[DEBUG] GUI Octave :"+octave);
+        		System.out.println("[DEBUG] GUI noteParsed :"+noteParsed);
+        		System.out.println("[DEBUG] GUI notePacket :"+notePacket);
+        		}
+        	}
+        
     	} else if (keyCode == 28 && this.octaveTextField.isFocused()) {
-        	System.out.println("[DEBUG] Character: "+character);
-        	System.out.println("[DEBUG] Code: "+keyCode);        	
+        	//System.out.println("[DEBUG] Character: "+character);
+        	//System.out.println("[DEBUG] Code: "+keyCode);
+        	this.octaveTextField.setFocused(false);
 			//TODO Send packets
+        	
     	}   	
     }
     
@@ -180,7 +211,8 @@ public class GUI extends GuiScreen {
     		case 1: //Play
     			Packet playNote = new Packet(x, y, z);
     			//playNote.setText("play");
-    			NBGUI.network.sendToServer(playNote);          
+    			NBGUI.network.sendToServer(playNote);
+    			System.out.println(this.entityNote);
     			break;
 			case 2: //Note +1
 				break;

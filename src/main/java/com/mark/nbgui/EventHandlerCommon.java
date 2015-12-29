@@ -56,7 +56,7 @@ public class EventHandlerCommon {
                 event.entityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
                 
                 event.useBlock = Event.Result.DENY;
-                event.setCanceled(true);
+                //event.setCanceled(true);
     		}
     	}
     }

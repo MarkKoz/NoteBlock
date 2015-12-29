@@ -1,5 +1,7 @@
 package com.mark.nbgui.packet;
 
+import com.mark.nbgui.NoteUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityNote;
@@ -22,6 +24,10 @@ public class PacketHandler implements IMessageHandler<Packet, Packet> {
 				BlockPos pos = new BlockPos(packet.x, packet.y, packet.z);
 				TileEntityNote noteBlock = (TileEntityNote) world.getTileEntity(pos);
 				noteBlock.triggerNote(world, pos);
+				
+				System.out.println("Server: "+noteBlock);
+				System.out.println("Server: "+NoteUtils.getBlockNote(noteBlock));
+				System.out.println("Server: "+NoteUtils.getNoteString(NoteUtils.getBlockNote(noteBlock)));
 				
 				//noteBlock.readFromNBT(packet.compound);
 				//noteBlock.getDescriptionPacket()
