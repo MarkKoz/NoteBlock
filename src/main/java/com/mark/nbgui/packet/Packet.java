@@ -15,7 +15,6 @@ public class Packet implements IMessage {
 
     public Packet() {
         //this.compound = new NBTTagCompound();
-    	//this.entity = new TileEntityNote();
     }
 
     public Packet(int x, int y, int z) {
@@ -25,8 +24,6 @@ public class Packet implements IMessage {
         		 	
     	//this();
         //entityNote.writeToNBT(this.compound);
-    	
-    	//entity = entityNote;
     }
 
     /*public void setText(String text) {

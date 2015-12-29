@@ -21,16 +21,10 @@ public class PacketHandler implements IMessageHandler<Packet, Packet> {
 				World world = (World) mainThread;
 				BlockPos pos = new BlockPos(packet.x, packet.y, packet.z);
 				TileEntityNote noteBlock = (TileEntityNote) world.getTileEntity(pos);
-				System.out.println("[DEBUG] PH World: "+world);
-				System.out.println("[DEBUG] PH Pos: "+pos);
-				//noteBlock.readFromNBT(packet.compound);
 				noteBlock.triggerNote(world, pos);
-				//noteBlock.getDescriptionPacket()
 				
-				//DEBUG
-				System.out.println("[DEBUG] PH getWorld: "+noteBlock.getWorld());
-				System.out.println("[DEBUG] PH getPos: "+noteBlock.getPos());
-				System.out.println("[DEBUG] PH note: "+noteBlock.note);
+				//noteBlock.readFromNBT(packet.compound);
+				//noteBlock.getDescriptionPacket()
 
 				/*String text = packet.compound.getString("____NBGUIMsg");
 				if (text.startsWith("PITCH_")) {

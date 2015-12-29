@@ -49,15 +49,10 @@ public class GUI extends GuiScreen {
         this.y = y;
         this.z = z;
         
-        System.out.println("[DEBUG] GWorld: "+world);
-        System.out.println("[DEBUG] GPos: "+pos);
-        System.out.println("[DEBUG] GPosX: "+x);
-        System.out.println("[DEBUG] GPosY: "+y);
-        System.out.println("[DEBUG] GPosZ: "+z);
+        //TODO Returns null, fix.
         //System.out.println("[DEBUG] GNote: "+entityNote);
         //System.out.println("[DEBUG] GBlock: "+blockNote);
         //System.out.println("[DEBUG] GUnder: "+underBlock);
-
         this.entityNote = (TileEntityNote) world.getTileEntity(pos);
         this.blockNote = (BlockNote) world.getBlockState(pos).getBlock();
         this.underBlock = world.getBlockState(pos.down()).getBlock();
@@ -140,32 +135,15 @@ public class GUI extends GuiScreen {
     @Override
     public void keyTyped(char character, int keyCode) throws IOException {
     	super.keyTyped(character, keyCode);
-    	if (this.noteTextField.textboxKeyTyped(character, keyCode)) {
-    		
-    		//DEBUG
-        	System.out.println("[DEBUG] Note typed: "+noteTextField.textboxKeyTyped(character, keyCode));
+    	if (keyCode == 28 && this.noteTextField.isFocused()) {
         	System.out.println("[DEBUG] Character: "+character);
-        	System.out.println("[DEBUG] Code: "+keyCode);
-        	System.out.println("[DEBUG]-------------------END-----------------------");
-    		
-    		if (keyCode == 28) {
-    			this.noteTextField.setFocused(false);
-    			
-    			//DEBUG
-    			System.out.println("[DEBUG] Note return pressed: ");
-            	System.out.println("[DEBUG]-------------------END-----------------------");
-    			
-    			//TODO add server packet stuff
-                /*Packet returnKeyNote = new Packet();
-                returnKeyNote.setText("PITCH_"+NoteUtils.parseNote(noteTextField.getText(), GUI.octaveTextField.getText()));
-                NBGUI.network.sendToServer(returnKeyNote);*/
-    		}
-    	} else if (this.octaveTextField.textboxKeyTyped(character, keyCode)) {
-    		if (keyCode == 28) {
-    			this.octaveTextField.setFocused(false);
-    			//TODO add server packet stuff
-    		}
-    	} 
+        	System.out.println("[DEBUG] Code: "+keyCode);        	
+			//TODO Send packets
+    	} else if (keyCode == 28 && this.octaveTextField.isFocused()) {
+        	System.out.println("[DEBUG] Character: "+character);
+        	System.out.println("[DEBUG] Code: "+keyCode);        	
+			//TODO Send packets
+    	}   	
     }
     
     @Override
@@ -201,8 +179,7 @@ public class GUI extends GuiScreen {
     	switch (button.id) {
     		case 1: //Play
     			Packet playNote = new Packet(x, y, z);
-                //pos.getX(), pos.getY(), pos.getZ()
-                //playNote.setText("play");
+    			//playNote.setText("play");
     			NBGUI.network.sendToServer(playNote);          
     			break;
 			case 2: //Note +1

@@ -20,7 +20,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class EventHandlerCommon {	
-	//public static Packet entityNoteBlock;
 	
     /*@SubscribeEvent
     public void noteBlockChange(NoteBlockEvent.Change event) {
@@ -41,8 +40,8 @@ public class EventHandlerCommon {
         	System.out.println("[DEBUG] Return Constant");
         	System.out.println("[DEBUG] KeyCode: "+KeyBindings.returnInput.getKeyCode());
         	System.out.println("[DEBUG] KeyCodeDefault: "+KeyBindings.returnInput.getKeyCodeDefault());
-			/*if (mc.currentScreen == GUI) {
-    			// set some static value to true inside YourGuiClass
+			/*if (mc.currentScreen instanceof GUI) {
+    			//GUI.thing = true;
     			System.out.println("[DEBUG] Return Constant Screen Checked");
     		}*/
         }
@@ -55,9 +54,9 @@ public class EventHandlerCommon {
     		Block block = world.getBlockState(event.pos).getBlock();
     		if (block.equals(Blocks.noteblock)) {
                 event.entityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
-                //entityNoteBlock = new Packet(event.pos.getX(), event.pos.getY(), event.pos.getZ());
                 
                 event.useBlock = Event.Result.DENY;
+                event.setCanceled(true);
     		}
     	}
     }
