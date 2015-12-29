@@ -140,43 +140,67 @@ public class GUI extends GuiScreen {
     	super.keyTyped(character, keyCode);
     	this.noteTextField.textboxKeyTyped(character, keyCode);
     	this.octaveTextField.textboxKeyTyped(character, keyCode);
-    	if (keyCode == 28 && this.noteTextField.isFocused()) {
-        	//System.out.println("[DEBUG] Character: "+character);
-        	//System.out.println("[DEBUG] Code: "+keyCode);      
+    	
+    	if (keyCode == 28 && this.noteTextField.isFocused()) {   
         	this.noteTextField.setFocused(false);
-        	
+        	    	
         	String note = this.noteTextField.getText();
-        	String octave = this.octaveTextField.getText();	
+        	int octave = Integer.parseInt(this.octaveTextField.getText());
         	
         	//TODO Send packets
         	if (note.equals("")) {
         		this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
         	} else {
         		int noteParsed = NoteUtils.parsePitch(note, octave);
+        		
         		if (noteParsed == 12) {
         			this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
         		} else {
         		PacketNote notePacket = new PacketNote(noteParsed);
-        		this.noteTextField.setText(NoteUtils.parseNoteStr(note)); //TODO Get note from server (from the TE) rather than client
+        		this.noteTextField.setText(NoteUtils.parseNoteStr(note)); //TODO Get note from server (from the TE)
         		//NBGUI.network.sendToServer(notePacket);
         		
         		//DEBUG
-        		System.out.println("[DEBUG] GUI Note Str:"+note);
-        		System.out.println("[DEBUG] GUI Octave Str :"+octave);
-        		System.out.println("[DEBUG] GUI Note Parse1:"+NoteUtils.parseNote(note));
-        		System.out.println("[DEBUG] GUI Note Parse2:"+NoteUtils.parseNoteInt(note));
-        		System.out.println("[DEBUG] GUI Note Parse3:"+NoteUtils.parseNoteStr(note));
-        		System.out.println("[DEBUG] GUI Note Parse4 :"+noteParsed);
-        		System.out.println("[DEBUG] GUI notePacket :"+notePacket);
+        		System.out.println("[DEBUG] GUI Note Str: "+note);
+        		System.out.println("[DEBUG] GUI Octave Str: "+octave);
+        		System.out.println("[DEBUG] GUI Note Parse1: "+NoteUtils.parseNote(note));
+        		System.out.println("[DEBUG] GUI Note Parse2: "+NoteUtils.parseNoteInt(note));
+        		System.out.println("[DEBUG] GUI Note Parse3: "+NoteUtils.parseNoteStr(note));
+        		System.out.println("[DEBUG] GUI Note Parse4: "+noteParsed);
+        		System.out.println("[DEBUG] GUI notePacket: "+notePacket);
         		}
         	}
         
     	} else if (keyCode == 28 && this.octaveTextField.isFocused()) {
-        	//System.out.println("[DEBUG] Character: "+character);
-        	//System.out.println("[DEBUG] Code: "+keyCode);
         	this.octaveTextField.setFocused(false);
-			//TODO Send packets
         	
+			//TODO Send packets
+        	if (this.octaveTextField.getText().equals("") ) {
+        		this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
+        	} else {
+            	String note = this.noteTextField.getText();
+            	int octave = Integer.parseInt(this.octaveTextField.getText());
+            	int octaveParsed = NoteUtils.parseOctave(note, octave);
+            	
+            	if (octaveParsed == 0) {
+            		this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
+            	} else {               	
+                	PacketNote octavePacket = new PacketNote(octaveParsed);
+                	//NBGUI.network.sendToServer(octavePacket);
+                	this.octaveTextField.setText(Integer.toString(octaveParsed)); //TODO Get octave from server (from TE)
+                	
+            		//DEBUG
+            		System.out.println("[DEBUG] GUI Note Str: "+note);
+            		System.out.println("[DEBUG] GUI Octave Str: "+this.octaveTextField.getText());
+            		System.out.println("[DEBUG] GUI Octave Int: "+octave);
+            		System.out.println("[DEBUG] GUI Octave Parsed: "+octaveParsed);
+            		System.out.println("[DEBUG] GUI Note Parse1: "+NoteUtils.parseNote(note));
+            		System.out.println("[DEBUG] GUI Note Parse2: "+NoteUtils.parseNoteInt(note));
+            		System.out.println("[DEBUG] GUI Note Parse3: "+NoteUtils.parseNoteStr(note));
+            		System.out.println("[DEBUG] GUI Note Parse4: "+NoteUtils.parsePitch(note, octave));
+            		System.out.println("[DEBUG] GUI Octave Packet: "+octavePacket);
+            	}
+        	}
     	}   	
     }
     
