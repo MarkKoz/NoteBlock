@@ -16,7 +16,7 @@ public enum Note {
     E,
     F;
 
-    private static final Note[] values = values();
+    private static Note[] values = Note.values();
 
     public static Note fromBlockNote(NoteBlockEvent.Note note) {
         return Note.values[note.ordinal() % Note.values.length];
@@ -65,6 +65,7 @@ public enum Note {
     }
 
     public Note add(int factor) {
-        return Note.values[(this.ordinal() + factor) % Note.values.length];
+        int index = Math.floorMod((this.ordinal() + factor), Note.values.length);
+        return Note.values[index];
     }
 }

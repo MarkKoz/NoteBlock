@@ -70,6 +70,7 @@ public class GUI extends GuiScreen {
         this.z = z;
 
         this.underBlock = world.getBlockState(pos.down()).getBlock();
+        this.currentPitch = new Pitch(0);
     }
     
 	@Override

@@ -78,18 +78,22 @@ public enum Octave {
     public String getName() {
         switch (this) {
             case LOW:
-                return "Low";
+                return "3";
             case MID:
-                return "Mid";
+                return "4";
             case HIGH:
-                return "High";
+                return "5";
         }
 
         return "Unknown";
     }
 
     public Octave add(int factor) {
-        return Octave.values[this.ordinal() + factor];
+        try {
+            return Octave.values[this.ordinal() + factor];
+        } catch (Throwable ignored) {
+        }
+        return this;
     }
 }
 
