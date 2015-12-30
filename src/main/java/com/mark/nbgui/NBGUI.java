@@ -1,5 +1,8 @@
 package com.mark.nbgui;
 
+import com.mark.nbgui.event.EventHandlerCommon;
+import com.mark.nbgui.gui.GUIHandler;
+import com.mark.nbgui.gui.KeyBindings;
 import com.mark.nbgui.packet.Packet;
 import com.mark.nbgui.packet.PacketClient;
 import com.mark.nbgui.packet.PacketHandler;
@@ -7,7 +10,6 @@ import com.mark.nbgui.packet.PacketHandlerClient;
 import com.mark.nbgui.proxy.IProxy;
 import com.mark.nbgui.reference.Reference;
 
-import net.minecraft.block.BlockNote;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;

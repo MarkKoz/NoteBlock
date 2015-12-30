@@ -1,4 +1,4 @@
-package com.mark.nbgui;
+package com.mark.nbgui.gui;
 
 import org.lwjgl.input.Keyboard;
 
