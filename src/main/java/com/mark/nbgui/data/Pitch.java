@@ -1,5 +1,7 @@
 package com.mark.nbgui.data;
 
+import com.mark.nbgui.exception.PitchNotFoundException;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,12 +32,18 @@ public class Pitch {
     public Pitch(Note note, Octave octave) {
         Range range = octave.getRange();
 
+        boolean found = false;
         for (int i = range.getLower(); i <= range.getUpper(); i++) {
-            int noteNum = i % Note.MAX_NOTE;
-
-            if (note.ordinal() == noteNum) {
+            if (found || note.ordinal() == (i % Note.MAX_NOTE)) {
                 this.num = i;
+                found = true;
             }
+        }
+
+        if (!found) {
+            throw new PitchNotFoundException(
+                    String.format("Could not find the pitch at note %s and octave %s",
+                            note.name(), octave.name()));
         }
     }
 

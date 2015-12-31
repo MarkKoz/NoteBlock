@@ -32,10 +32,19 @@ public enum Octave {
         return this.range;
     }
 
+    /**
+     * Gets the current octave's name (number)
+     * @return The current Octave's name
+     */
     public String getName() {
         return String.format("%d", this.num);
     }
 
+    /**
+     * Increments this octave by a given factor
+     * @param factor The factor to increment this octave by
+     * @return The new octave created as a result.
+     */
     public Octave add(int factor) {
         try {
             return Octave.values[this.ordinal() + factor];
@@ -52,7 +61,13 @@ public enum Octave {
     public static Octave fromPitch(Pitch pitch) {
         int numPitch = pitch.getNum();
 
-        for ()
+        for (Octave octave : Octave.values) {
+            Range range = octave.getRange();
+
+            if (range.inRange(numPitch)) {
+                return octave;
+            }
+        }
 
         return null;
     }
