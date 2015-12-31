@@ -16,6 +16,8 @@ public enum Note {
     E,
     F;
 
+    public static int MAX_NOTE = 12;
+
     private static Note[] values = Note.values();
 
     public static Note fromBlockNote(NoteBlockEvent.Note note) {
