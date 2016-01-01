@@ -1,7 +1,5 @@
 package com.mark.nbgui.data;
 
-import com.mark.nbgui.exception.PitchNotFoundException;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,21 +28,45 @@ public class Pitch {
      * @param octave The octave object
      */
     public Pitch(Note note, Octave octave) {
-        Range range = octave.getRange();
+        //Range range = octave.getRange();
 
-        boolean found = false;
-        for (int i = range.getLower(); i <= range.getUpper(); i++) {
-            if (found || note.ordinal() == (i % Note.MAX_NOTE)) {
+        /*for (int i = range.getLower(); i <= range.getUpper(); i++) {
+            if (note.ordinal() == (i % Note.MAX_NOTE)) {
                 this.num = i;
-                found = true;
+            } else {
+                throw new PitchNotFoundException(
+                        String.format("Could not find the pitch at note %s and octave %s",
+                                note.name(), octave.name()));
             }
+        }*/
+        if (noteInRange(note, octave)) this.num = note.ordinal();
+        else {
+            /*throw new PitchNotFoundException(
+                            String.format("Could not find the pitch at note %s and octave %s",
+                                    note.name(), octave.name()));*/
+            this.num = 12;
+            String error = String.format("Could not find the pitch at note %s and octave %s",
+                    note.name(), octave.name());
+            System.out.print(error);
         }
+    }
 
-        if (!found) {
-            throw new PitchNotFoundException(
-                    String.format("Could not find the pitch at note %s and octave %s",
-                            note.name(), octave.name()));
+    /**
+     * Checks if a Note object is within the range of an Octave object
+     * @param note The Note object
+     * @param octave The Octave object
+     * @return True if within range, false otherwise
+     */
+    public boolean noteInRange (Note note, Octave octave) {
+        int noteInt = note.ordinal();
+        int low = octave.getRange().getLower();
+        int upper = octave.getRange().getUpper();
+
+        if (octave != Octave.LOW ) {
+            low = low - 6;
+            upper = upper - 6;
         }
+        return (noteInt >= low && noteInt <= upper);
     }
 
     /**
