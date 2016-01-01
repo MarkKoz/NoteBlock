@@ -1,7 +1,6 @@
 package com.mark.nbgui.data;
 
-import com.mark.nbgui.exception.PitchNotFoundException;
-
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -12,7 +11,6 @@ import java.util.regex.Pattern;
  */
 public class Pitch {
     public static final int MAX_PITCH = 25;
-    private static Pattern pattern = Pattern.compile("^([A-Za-z#]{1,2}|[A-Za-z]sharp)\\s*(\\d)$");
 
     private int num;
 
@@ -25,36 +23,12 @@ public class Pitch {
     }
 
     /**
-     * Creates a Pitch object from a Note object and an Octave object.
-     * @param note The note object
-     * @param octave The octave object
-     */
-    public Pitch(Note note, Octave octave) {
-        Range range = octave.getRange();
-
-        boolean found = false;
-        for (int i = range.getLower(); i <= range.getUpper(); i++) {
-            if (found || note.ordinal() == (i % Note.MAX_NOTE)) {
-                this.num = i;
-                found = true;
-            }
-        }
-
-        if (!found) {
-            throw new PitchNotFoundException(
-                    String.format("Could not find the pitch at note %s and octave %s",
-                            note.name(), octave.name()));
-        }
-    }
-
-    /**
      * Gets the note of this pitch.
      * @return A Note object that represents the note of this pitch.
      */
     public Note getNote() {
         return Note.fromPitch(this);
     }
-
     /**
      * Gets the octave of this pitch.
      * @return A Octave object that represents the octave of this pitch.
@@ -69,7 +43,7 @@ public class Pitch {
      * @return The new pitch with the incremented note
      */
     public Pitch incrementNote(int factor) {
-        return new Pitch(this.getNote().add(factor), this.getOctave());
+        return Pitch.fromNoteOctave(this.getNote().add(factor), this.getOctave());
     }
 
     /**
@@ -78,7 +52,7 @@ public class Pitch {
      * @return The new pitch with the incremented octave
      */
     public Pitch incrementOctave(int factor) {
-        return new Pitch(this.getNote(), this.getOctave().add(factor));
+        return Pitch.fromNoteOctave(this.getNote(), this.getOctave().add(factor));
     }
 
     /**
@@ -87,6 +61,11 @@ public class Pitch {
      */
     public int getNum() {
         return this.num;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s %s", this.getNote(), this.getOctave());
     }
 
     /**
@@ -118,24 +97,32 @@ public class Pitch {
     }
 
     /**
-     * Parses a pitch from a user input
-     * @param pitch The user input
-     * @return The Pitch object parsed from the input.
+     * Creates a Pitch object from a NoteOctavePair object.
+     * @param pair The NoteOctavePair object
      */
-    public static Pitch parsePitch(String pitch) {
-        pitch = pitch.trim();
+    public static Pitch fromNoteOctave(NoteOctavePair pair) {
+        return Pitch.fromNoteOctave(pair.note, pair.octave);
+    }
 
-        Matcher m = Pitch.pattern.matcher(pitch);
-        if (m.matches() && m.groupCount() == 2) {
-            String strNote = m.group(1);
-            int iOctave = Integer.parseInt(m.group(2));
+    /**
+     * Creates a Pitch object from a Note object and an Octave object.
+     * @param note The note object
+     * @param octave The octave object
+     */
+    public static Pitch fromNoteOctave(Note note, Octave octave) {
+        int num = -1;
 
-            Note note = Note.fromString(strNote);
-            Octave octave = Octave.fromNum(iOctave);
+        Range range = octave.getRange();
 
-            return new Pitch(note, octave);
+        for (int i = range.getLower(); i <= range.getUpper(); i++) {
+            if (note.ordinal() == (i % Note.MAX_NOTE)) {
+                num = i;
+            }
         }
 
+        if (num != -1) {
+            return new Pitch(num);
+        }
         return null;
     }
 }

@@ -4,8 +4,7 @@ public enum Octave {
     LOW(3, new Range(0, 5)),
     MID(4, new Range(6, 17)),
     HIGH(5, new Range(18, 24));
-
-
+    
     private final int num;
     private final Range range;
 
@@ -51,6 +50,15 @@ public enum Octave {
         } catch (Throwable ignored) {
         }
         return this;
+    }
+
+    /**
+     * Creates a String representation of this Octave
+     * @return A String representation of this Octave
+     */
+    @Override
+    public String toString() {
+        return this.getName();
     }
 
     /**
