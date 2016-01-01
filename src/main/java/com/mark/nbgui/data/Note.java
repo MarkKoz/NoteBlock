@@ -42,6 +42,15 @@ public enum Note {
     }
 
     /**
+     * Creates a Stirng representation of this Note.
+     * @return This Note's name
+     */
+    @Override
+    public String toString() {
+        return this.getName();
+    }
+
+    /**
      * Creates a new Note object from a Pitch object
      * @param pitch The Pitch object
      * @return The Note object created

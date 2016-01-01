@@ -3,6 +3,7 @@ package com.mark.nbgui.gui;
 import com.mark.nbgui.NBGUI;
 import com.mark.nbgui.data.Instrument;
 import com.mark.nbgui.data.Note;
+import com.mark.nbgui.data.NoteOctavePair;
 import com.mark.nbgui.data.Octave;
 import com.mark.nbgui.data.Pitch;
 import com.mark.nbgui.packet.IStringReceived;
@@ -20,6 +21,7 @@ import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +87,7 @@ public class GUI extends GuiScreen {
                 GUI.instrumentText.replace("{instrument}",
                         Instrument.get(this.underBlock).translate()),
         	this.width / 2, 30, 0xFFFFFFFF);
+
         //TODO Remove note and octave strings; redundant with text fields
         /*this.drawCenteredString(this.fontRendererObj,
         	GUI.noteText.replace("{note}",  
@@ -161,74 +164,66 @@ public class GUI extends GuiScreen {
         pitchTextField.textboxKeyTyped(character, keyCode);
 
         if (keyCode == ENTER_KEY_CODE) {
+            this.error(null, "");
             if (this.noteTextField.isFocused()) {
                 Note note = Note.fromString(this.noteTextField.getText());
                 if (note != null) {
-                    this.changePitch(new Pitch(note, this.currentPitch.getOctave()));
+                    Pitch newPitch = Pitch.fromNoteOctave(note, this.currentPitch.getOctave());
+                    if (newPitch != null) {
+                        this.changePitch(newPitch);
+                    } else {
+
+                    }
+                } else {
+
                 }
+                this.noteTextField.setFocused(false);
             }
 
             if (this.octaveTextField.isFocused()) {
                 Octave octave = Octave.fromNum(Integer.parseInt(this.octaveTextField.getText()));
                 if (octave != null) {
-                    this.changePitch(new Pitch(this.currentPitch.getNote(), octave));
+                    Pitch newPitch = Pitch.fromNoteOctave(this.currentPitch.getNote(), octave);
+                    if (newPitch != null) {
+                        this.changePitch(newPitch);
+                    } else {
+                        this.error(this.octaveTextField, "The entered note/octave is not supported.");
+                    }
+                } else {
+                    this.error(this.octaveTextField, "The entered note/octave is not supported.");
                 }
+                this.octaveTextField.setFocused(false);
             }
 
             if (this.pitchTextField.isFocused()) {
-                Pitch pitch = Pitch.parsePitch(this.pitchTextField.getText());
+                NoteOctavePair pair = NoteOctavePair.parseNoteOctave(this.pitchTextField.getText());
 
-                if (pitch != null) {
-                    this.changePitch(pitch);
+                if (pair != null) {
+                    Pitch pitch = Pitch.fromNoteOctave(pair);
+
+                    if (pitch != null) {
+                        this.changePitch(pitch);
+                    } else {
+
+                    }
+                } else {
+
                 }
+                this.pitchTextField.setFocused(false);
             }
         }
+    }
 
-    	/*if (keyCode == 28 && this.noteTextField.isFocused()) {
-        	this.noteTextField.setFocused(false);
+    private void error(GuiTextField field, String error) {
+        if (field == null) {
+            //TODO: get rid off ALL errors
+        } else if (field == this.noteTextField) {
 
-        	String note = this.noteTextField.getText();
-        	int octave = Integer.parseInt(this.octaveTextField.getText());
+        } else if (field == this.octaveTextField) {
 
-        	//TODO Send packets
-        	if (!note.isEmpty()) {
-        		this.updateNote();
-        	} else {
-        		int pitch = NoteUtils.parsePitch(note, octave);
+        } else if (field == this.pitchTextField) {
 
-        		if (pitch == 12) {
-                    this.updateNote();
-        		} else {
-        			Packet notePacket = new Packet(x, y, z, pitch, "changePitch");
-        			NBGUI.network.sendToServer(notePacket);
-
-        			this.updateNote();
-        		}
-        	}
-
-    	} else if (keyCode == 28 && this.octaveTextField.isFocused()) {
-        	this.octaveTextField.setFocused(false);
-
-			//TODO Send packets
-        	if (this.octaveTextField.getText().equals("") ) {
-                this.updateOctave();
-        	} else {
-            	String note = this.noteTextField.getText();
-            	int octave = Integer.parseInt(this.octaveTextField.getText());
-            	int octaveParsed = NoteUtils.parseOctave(note, octave);
-
-            	if (octaveParsed == 0) {
-            		System.out.println("[DEBUG] [GUI] Octave noteStr: "+note);
-                    this.updateOctave();
-            	} else {
-            		int pitch = NoteUtils.parsePitch(note, octave);
-
-                	Packet octavePacket = new Packet(x, y, z, pitch, "changePitch");
-                	NBGUI.network.sendToServer(octavePacket);
-                    this.updateOctave();
-            	}
-        	}
-    	}*/
+        }
     }
 
     @Override
@@ -237,29 +232,6 @@ public class GUI extends GuiScreen {
         this.noteTextField.mouseClicked(x, y, clickedButton);
         this.octaveTextField.mouseClicked(x, y, clickedButton);
         this.pitchTextField.mouseClicked(x, y, clickedButton);
-/*
-        if (this.noteTextField.isFocused()) {
-            if (!this.noteTextField.getText().equals("")) {
-
-            } else {
-                this.noteTextField.setText("");
-            }
-        } else if (this.octaveTextField.isFocused()) {
-            if (!this.octaveTextField.getText().equals("")) {
-
-            } else {
-                this.octaveTextField.setText("");
-            }
-        }
-        if (!this.noteTextField.isFocused()) {
-            //this.noteTextField.setText(NoteUtils.getNoteString(NoteUtils.getBlockNote(this.entityNote)));
-        } else if (!this.octaveTextField.isFocused()) {
-            //this.octaveTextField.setText(NoteUtils.getOctaveString(NoteUtils.getBlockOctave(this.entityNote)));
-        }
-    	/*Debug
-    	System.out.println("[DEBUG] Note focused: "+noteTextField.isFocused());
-    	System.out.println("[DEBUG] Octave focused: "+octaveTextField.isFocused());
-    	System.out.println("[DEBUG]-------------------END-----------------------");*/
     }
     
     @Override	
