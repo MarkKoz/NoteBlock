@@ -2,6 +2,7 @@ package com.mark.nbgui.data;
 
 /**
  * A class that represents a number range.
+ *
  * @author Nima, Mark
  * @version 1.0.0
  */
@@ -11,6 +12,7 @@ public class Range {
 
     /**
      * Creates a new Range object
+     *
      * @param lower The lower bound of the range.
      * @param upper The upper bound of the range.
      */
@@ -21,6 +23,7 @@ public class Range {
 
     /**
      * Gets the upper range of this
+     *
      * @return The upper bound of this range.
      */
     public int getUpper() {
@@ -29,6 +32,7 @@ public class Range {
 
     /**
      * Gets the lower range of this
+     *
      * @return The lower bound of this range.
      */
     public int getLower() {
@@ -37,6 +41,7 @@ public class Range {
 
     /**
      * Checks if val is in range of the lowerbound and upperbound of this Range object.
+     *
      * @param val The value to check against.
      * @return True if val is in range of the lowerbound and upperbound, false otherwise.
      */
