@@ -17,15 +17,18 @@ public class NoteOctavePair {
 
     /**
      * Creates a new NoteOctavePair
-     * @param note The Note object
+     *
+     * @param note   The Note object
      * @param octave The Octave object
      */
     public NoteOctavePair(Note note, Octave octave) {
         this.note = note;
         this.octave = octave;
     }
+
     /**
      * Parses a note-octave input from a user
+     *
      * @param input The user input
      * @return The NoteOctavePair object parsed from the input.
      */

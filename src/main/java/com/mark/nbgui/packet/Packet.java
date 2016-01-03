@@ -2,10 +2,6 @@ package com.mark.nbgui.packet;
 
 import com.mark.nbgui.data.Pitch;
 import io.netty.buffer.ByteBuf;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntityNote;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 
 public class Packet implements IMessage {
@@ -36,18 +32,18 @@ public class Packet implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-    	x = buf.readInt();
-    	y = buf.readInt();
-    	z = buf.readInt();
-    	pitch = new Pitch(buf.readInt());
-    	instruction = Instruction.get(buf.readInt());
+        x = buf.readInt();
+        y = buf.readInt();
+        z = buf.readInt();
+        pitch = new Pitch(buf.readInt());
+        instruction = Instruction.get(buf.readInt());
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-    	buf.writeInt(this.x);
-    	buf.writeInt(this.y);
-    	buf.writeInt(this.z);
+        buf.writeInt(this.x);
+        buf.writeInt(this.y);
+        buf.writeInt(this.z);
         buf.writeInt(this.pitch.getNum());
         buf.writeInt(instruction.ordinal());
     }

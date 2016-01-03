@@ -13,22 +13,6 @@ public enum Instrument {
 
     private static Instrument[] values = Instrument.values();
 
-    public String translate() {
-        switch (this) {
-            case PIANO:
-                return I18n.format("nbgui.string.instrument.piano");
-            case BASSDRUM:
-                return I18n.format("nbgui.string.instrument.bassdrum");
-            case SNARE:
-                return I18n.format("nbgui.string.instrument.snaredrum");
-            case CLICKS:
-                return I18n.format("nbgui.string.instrument.clicks");
-            case BASSGUITAR:
-                return I18n.format("nbgui.string.instrument.doublebass");
-        }
-        return "";
-    }
-
     public static Instrument get(Block block) {
         if (block == null) {
             return Instrument.PIANO;
@@ -45,5 +29,21 @@ public enum Instrument {
             id = 4;
         }
         return Instrument.values[id];
+    }
+
+    public String translate() {
+        switch (this) {
+            case PIANO:
+                return I18n.format("nbgui.string.instrument.piano");
+            case BASSDRUM:
+                return I18n.format("nbgui.string.instrument.bassdrum");
+            case SNARE:
+                return I18n.format("nbgui.string.instrument.snaredrum");
+            case CLICKS:
+                return I18n.format("nbgui.string.instrument.clicks");
+            case BASSGUITAR:
+                return I18n.format("nbgui.string.instrument.doublebass");
+        }
+        return "";
     }
 }

@@ -11,10 +11,10 @@ import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 
 public class PacketHandler implements IMessageHandler<Packet, Packet> {
-	@Override
-	public Packet onMessage(final Packet packet, final MessageContext ctx) {
-		final IThreadListener mainThread = (WorldServer) ctx.getServerHandler().playerEntity.worldObj;
-		mainThread.addScheduledTask(() -> {
+    @Override
+    public Packet onMessage(final Packet packet, final MessageContext ctx) {
+        final IThreadListener mainThread = (WorldServer) ctx.getServerHandler().playerEntity.worldObj;
+        mainThread.addScheduledTask(() -> {
             World world = (World) mainThread;
             EntityPlayerMP player = ctx.getServerHandler().playerEntity;
             BlockPos pos = new BlockPos(packet.x, packet.y, packet.z);
@@ -33,6 +33,6 @@ public class PacketHandler implements IMessageHandler<Packet, Packet> {
                     break;
             }
         });
-		return null;
-	}
+        return null;
+    }
 }
