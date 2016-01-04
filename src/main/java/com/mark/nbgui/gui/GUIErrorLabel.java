@@ -5,12 +5,12 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiTextField;
 
 public class GUIErrorLabel extends Gui {
-    private String error;
+    private String error = "";
     private FontRenderer fontRendererObj;
     private int x;
     private int y;
     private int color;
-    private boolean enabled = true;
+    private boolean enabled = false;
 
     public GUIErrorLabel(FontRenderer fontRendererObj, int x, int y, int color) {
         this.fontRendererObj = fontRendererObj;
@@ -23,24 +23,18 @@ public class GUIErrorLabel extends Gui {
         this(fontRendererObj, x, y, 0xFF0000);
     }
 
-    public GUIErrorLabel(FontRenderer fontRendererObj, GuiTextField field, int color) {
-        this(fontRendererObj, field.xPosition + 10, field.yPosition + 10, color);
-    }
-
-    public GUIErrorLabel(FontRenderer fontRendererObj, GuiTextField field) {
-        this(fontRendererObj, field, 0xFF0000);
-    }
-
     public void disable() {
         this.enabled = false;
+        this.error = "";
     }
 
     public void setError(String error) {
+        this.enabled = !error.isEmpty();
         this.error = error;
     }
 
     public void draw() {
-        if (!this.error.isEmpty() && this.enabled) {
+        if (this.enabled && !this.error.isEmpty()) {
             this.drawCenteredString(this.fontRendererObj,
                     this.error, this.x, this.y, this.color);
         }

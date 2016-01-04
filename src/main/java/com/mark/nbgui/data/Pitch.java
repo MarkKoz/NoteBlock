@@ -26,7 +26,10 @@ public class Pitch {
      * @param pair The NoteOctavePair object
      */
     public static Pitch fromNoteOctave(NoteOctavePair pair) {
-        return Pitch.fromNoteOctave(pair.note, pair.octave);
+        if (pair.note != null && pair.octave != null) {
+            return Pitch.fromNoteOctave(pair.note, pair.octave);
+        }
+        return null;
     }
 
     /**
