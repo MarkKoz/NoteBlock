@@ -155,10 +155,10 @@ public class GUI extends GuiScreen {
                     if (newPitch != null) {
                         this.changePitch(newPitch);
                     } else {
-
+                        this.error(this.noteTextField, "The entered note/octave is not supported.");
                     }
                 } else {
-
+                    this.error(this.noteTextField, "The entered note/octave is not supported.");
                 }
                 this.noteTextField.setFocused(false);
             }
@@ -187,10 +187,10 @@ public class GUI extends GuiScreen {
                     if (pitch != null) {
                         this.changePitch(pitch);
                     } else {
-
+                        this.error(this.pitchTextField, "The entered note/octave is not supported.");
                     }
                 } else {
-
+                    this.error(this.pitchTextField, "The entered note/octave is not supported.");
                 }
                 this.pitchTextField.setFocused(false);
             }
@@ -198,15 +198,32 @@ public class GUI extends GuiScreen {
     }
 
     private void error(GuiTextField field, String error) {
-        if (field == null) {
-            //TODO: get rid off ALL errors
-        } else if (field == this.noteTextField) {
-
-        } else if (field == this.octaveTextField) {
-
-        } else if (field == this.pitchTextField) {
-
+        List<GUIErrorLabel> labels = new ArrayList<GUIErrorLabel>();
+        GUIErrorLabel label = this.getGuiLabel(field);
+        if (label == null) {
+            for (GUIErrorLabel l : this.getAllLabels()) {
+                labels.add(l);
+            }
+        } else {
+            labels.add(label);
         }
+
+        for (GUIErrorLabel l : labels) {
+            l.setError(error);
+            if (error.isEmpty()) {
+                l.disable();
+            }
+        }
+    }
+
+    private GUIErrorLabel[] getAllLabels() {
+        //TODO: implement
+        return new GUIErrorLabel[0];
+    }
+
+    private GUIErrorLabel getGuiLabel(GuiTextField field) {
+        //TODO: implement
+        return null;
     }
 
     @Override
