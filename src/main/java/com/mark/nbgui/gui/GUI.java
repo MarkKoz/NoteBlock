@@ -26,6 +26,10 @@ import java.util.List;
 public class GUI extends GuiScreen {
     public final static int GUI_ID = 20;
     private static final int ENTER_KEY_CODE = 28;
+    private static final int UP_KEY_CODE = 200;
+    private static final int DOWN_KEY_CODE = 208;
+    private static final int RIGHT_KEY_CODE = 205;
+    private static final int LEFT_KEY_CODE = 203;
     public static List<IStringReceived> pitchReceived = new ArrayList<IStringReceived>();
     private static String instrumentText = I18n.format("nbgui.string.gui.instrument") + " {instrument}";
     private static String noteText = I18n.format("nbgui.string.gui.note") + " {note}";
@@ -101,12 +105,12 @@ public class GUI extends GuiScreen {
         this.buttonList.add(playButton);
 
         //Pitch +1 Button
-        GuiButton addPitchButton = new GuiButton(2, this.width / 2 - 60, 145, 20, 20, "+");
-        this.buttonList.add(addPitchButton);
-
-        //PItch -1 Button
-        GuiButton subPitchButton = new GuiButton(3, this.width / 2 + 40, 145, 20, 20, "-");
+        GuiButton subPitchButton = new GuiButton(2, this.width / 2 + 40, 145, 20, 20, "+");
         this.buttonList.add(subPitchButton);
+
+        //Pitch -1 Button
+        GuiButton addPitchButton = new GuiButton(3, this.width / 2 - 60, 145, 20, 20, "-");
+        this.buttonList.add(addPitchButton);
 
 
         //Note Text Field
@@ -194,6 +198,10 @@ public class GUI extends GuiScreen {
                 }
                 this.pitchTextField.setFocused(false);
             }
+        } else if (keyCode == UP_KEY_CODE || keyCode == RIGHT_KEY_CODE) {
+            this.changePitch(this.currentPitch.increment(1));
+        } else if (keyCode == DOWN_KEY_CODE || keyCode == LEFT_KEY_CODE) {
+            this.changePitch(this.currentPitch.increment(-1));
         }
     }
 
@@ -217,7 +225,6 @@ public class GUI extends GuiScreen {
     }
 
     private GUIErrorLabel[] getAllLabels() {
-        //TODO: implement
         return new GUIErrorLabel[0];
     }
 
