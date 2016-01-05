@@ -72,13 +72,15 @@ public class GUI extends GuiScreen {
         });
     }
 
-    private void changePitch(Pitch pitch) {
-        NBGUI.network.sendToServer(new Packet(x, y, z, pitch, Instruction.ChangePitch));
-        GUI.pitchReceived.add(newPitch -> {
-            this.currentPitch = newPitch;
-            this.noteTextField.setText(pitch.getNote().getName());
-            this.octaveTextField.setText(pitch.getOctave().getName());
-        });
+    private void changePitch(Pitch pitchToSend) {
+        if (pitchToSend != null) {
+            NBGUI.network.sendToServer(new Packet(x, y, z, pitchToSend, Instruction.ChangePitch));
+            GUI.pitchReceived.add(pitch -> {
+                this.currentPitch = pitch;
+                this.noteTextField.setText(pitch.getNote().getName());
+                this.octaveTextField.setText(pitch.getOctave().getName());
+            });
+        }
     }
 
     @Override
