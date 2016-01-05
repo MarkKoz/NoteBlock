@@ -1,5 +1,6 @@
 package com.mark.nbgui.data;
 
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -24,6 +25,24 @@ public class NoteOctavePair {
     public NoteOctavePair(Note note, Octave octave) {
         this.note = note;
         this.octave = octave;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || this.getClass() != o.getClass()) return false;
+
+        NoteOctavePair that = (NoteOctavePair) o;
+
+        return Objects.equals(this.note, that.note) && Objects.equals(this.octave, that.octave);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = note != null ? note.hashCode() : 0;
+        result = 31 * result + (octave != null ? octave.hashCode() : 0);
+        return result;
     }
 
     /**

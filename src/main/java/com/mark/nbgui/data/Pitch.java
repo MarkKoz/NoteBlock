@@ -86,6 +86,15 @@ public class Pitch {
         return Octave.fromPitch(this);
     }
 
+
+    /**
+     * Gets the NoteOctavePair for this Pitch
+     * @return The NoteOctavePair for this Pitch
+     */
+    public NoteOctavePair getNoteOctavePair() {
+        return new NoteOctavePair(Note.fromPitch(this), Octave.fromPitch(this));
+    }
+
     /**
      * Adds parameter factor to this pitch's number
      *
@@ -93,7 +102,7 @@ public class Pitch {
      * @return The new incremented pitch
      */
     public Pitch increment(int factor) {
-        return Pitch.fromNum(this.num + factor);
+        return new Pitch(this.num + factor);
     }
 
     /**

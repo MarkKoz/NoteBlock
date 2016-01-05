@@ -263,10 +263,18 @@ public class GUI extends GuiScreen {
                 NBGUI.network.sendToServer(new Packet(x, y, z, Instruction.PlayPitch));
                 break;
             case 2: // Pitch +1
-                this.changePitch(this.currentPitch.increment(1));
+                if (this.currentPitch.getNoteOctavePair().equals(new NoteOctavePair(Note.F_SHARP, Octave.FIVE))) {
+                    this.changePitch(this.currentPitch.increment(2));
+                } else {
+                    this.changePitch(this.currentPitch.increment(1));
+                }
                 break;
             case 3: //Pitch -1
-                this.changePitch(this.currentPitch.increment(-1));
+                if (this.currentPitch.getNoteOctavePair().equals(new NoteOctavePair(Note.F_SHARP, Octave.THREE))) {
+                    this.changePitch(this.currentPitch.increment(-2));
+                } else {
+                    this.changePitch(this.currentPitch.increment(-1));
+                }
                 break;
         }
     }
