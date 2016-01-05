@@ -52,6 +52,7 @@ public class GUI extends GuiScreen {
 
         this.underBlock = world.getBlockState(pos.down()).getBlock();
         this.currentPitch = new Pitch(0);
+        this.updatePitch();
     }
 
     private void updateNote() {
@@ -62,6 +63,15 @@ public class GUI extends GuiScreen {
     private void updateOctave() {
         NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetStrings));
         GUI.pitchReceived.add(pitch -> this.octaveTextField.setText(pitch.getOctave().getName()));
+    }
+
+    private void updatePitch() {
+        NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetStrings));
+        GUI.pitchReceived.add(pitch -> {
+            this.noteTextField.setText(pitch.getNote().getName());
+            this.octaveTextField.setText(pitch.getOctave().getName());
+            this.currentPitch = pitch;
+        });
     }
 
     private void changePitch(Pitch pitch) {
