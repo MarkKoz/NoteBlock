@@ -21,6 +21,19 @@ public class Pitch {
     }
 
     /**
+     * Creates a Pitch object from a pitch value, returning null if the pitch isn't supported
+     * @param num Pitch value as an int
+     * @return The pitch object.
+     */
+    public static Pitch fromNum(int num) {
+        if (num >= 0 && num < Pitch.MAX_PITCH) {
+            return new Pitch(num);
+        }
+
+        return null;
+    }
+
+    /**
      * Creates a Pitch object from a NoteOctavePair object.
      *
      * @param pair The NoteOctavePair object
@@ -80,7 +93,7 @@ public class Pitch {
      * @return The new incremented pitch
      */
     public Pitch increment(int factor) {
-        return new Pitch(this.num + factor);
+        return Pitch.fromNum(this.num + factor);
     }
 
     /**

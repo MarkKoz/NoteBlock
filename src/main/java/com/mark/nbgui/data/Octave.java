@@ -1,9 +1,9 @@
 package com.mark.nbgui.data;
 
 public enum Octave {
-    LOW(3, new Range(0, 5)),
-    MID(4, new Range(6, 17)),
-    HIGH(5, new Range(18, 24));
+    THREE(3, new Range(0, 5)),
+    FOUR(4, new Range(6, 17)),
+    FIVE(5, new Range(18, 24));
 
     private static Octave[] values = Octave.values();
     private final int num;
