@@ -26,6 +26,10 @@ import java.util.List;
 public class GUI extends GuiScreen {
     public final static int GUI_ID = 20;
     private static final int ENTER_KEY_CODE = 28;
+    private static final int UP_KEY_CODE = 200;
+    private static final int DOWN_KEY_CODE = 208;
+    private static final int RIGHT_KEY_CODE = 205;
+    private static final int LEFT_KEY_CODE = 203;
     public static List<IStringReceived> pitchReceived = new ArrayList<IStringReceived>();
     private static String instrumentText = I18n.format("nbgui.string.gui.instrument") + " {instrument}";
     private static String noteText = I18n.format("nbgui.string.gui.note") + " {note}";
@@ -38,6 +42,7 @@ public class GUI extends GuiScreen {
     private GuiTextField noteTextField;
     private GuiTextField octaveTextField;
     private GuiTextField pitchTextField;
+    private GUIErrorLabel error;
 
     public GUI(EntityPlayer player, World world, int x, int y, int z) {
         BlockPos pos = new BlockPos(x, y, z);
@@ -75,6 +80,9 @@ public class GUI extends GuiScreen {
 
         this.noteTextField.drawTextBox();
         this.octaveTextField.drawTextBox();
+        this.pitchTextField.drawTextBox();
+
+        this.error.draw();
 
         this.drawCenteredString(this.fontRendererObj,
                 GUI.instrumentText.replace("{instrument}",
@@ -100,27 +108,29 @@ public class GUI extends GuiScreen {
         GuiButton playButton = new GuiButton(1, this.width / 2 - 30, 90, 60, 20, I18n.format("nbgui.button.playNote"));
         this.buttonList.add(playButton);
 
-        //Pitch +1 Button
-        GuiButton addPitchButton = new GuiButton(2, this.width / 2 - 60, 145, 20, 20, "+");
-        this.buttonList.add(addPitchButton);
+        this.error = new GUIErrorLabel(this.fontRendererObj, this.width / 2, 60);
 
-        //PItch -1 Button
-        GuiButton subPitchButton = new GuiButton(3, this.width / 2 + 40, 145, 20, 20, "-");
+        //Pitch +1 Button
+        GuiButton subPitchButton = new GuiButton(2, this.width / 2 + 40, 145, 20, 20, "+");
         this.buttonList.add(subPitchButton);
+
+        //Pitch -1 Button
+        GuiButton addPitchButton = new GuiButton(3, this.width / 2 - 60, 145, 20, 20, "-");
+        this.buttonList.add(addPitchButton);
 
 
         //Note Text Field
-        this.noteTextField = new GuiTextField(2, fontRendererObj, this.width / 2 - 30, 130, 60, 20);
+        this.noteTextField = new GuiTextField(2, this.fontRendererObj, this.width / 2 - 30, 130, 60, 20);
         this.noteTextField.setFocused(false);
         this.noteTextField.setCanLoseFocus(true);
-        this.updateNote();
         this.noteTextField.setTextColor(-1);
         this.noteTextField.setDisabledTextColour(-1);
         this.noteTextField.setEnableBackgroundDrawing(true);
-        this.noteTextField.setMaxStringLength(7);
+        this.noteTextField.setMaxStringLength(8);
+        this.updateNote();
 
         //Octave Text Field
-        this.octaveTextField = new GuiTextField(3, fontRendererObj, this.width / 2 - 30, 160, 60, 20);
+        this.octaveTextField = new GuiTextField(3, this.fontRendererObj, this.width / 2 - 30, 160, 60, 20);
         this.octaveTextField.setFocused(false);
         this.octaveTextField.setCanLoseFocus(true);
         this.octaveTextField.setTextColor(-1);
@@ -130,13 +140,13 @@ public class GUI extends GuiScreen {
         this.updateOctave();
 
         //Pitch Text Field
-        this.pitchTextField = new GuiTextField(4, fontRendererObj, this.width / 2 - 30, 190, 60, 20);
+        this.pitchTextField = new GuiTextField(4, this.fontRendererObj, this.width / 2 - 30, 190, 60, 20);
         this.pitchTextField.setFocused(false);
         this.pitchTextField.setCanLoseFocus(true);
         this.pitchTextField.setTextColor(-1);
         this.pitchTextField.setDisabledTextColour(-1);
         this.pitchTextField.setEnableBackgroundDrawing(true);
-        this.pitchTextField.setMaxStringLength(1);
+        this.pitchTextField.setMaxStringLength(16);
     }
 
     @Override
@@ -144,7 +154,7 @@ public class GUI extends GuiScreen {
         super.keyTyped(character, keyCode);
         this.noteTextField.textboxKeyTyped(character, keyCode);
         this.octaveTextField.textboxKeyTyped(character, keyCode);
-        pitchTextField.textboxKeyTyped(character, keyCode);
+        this.pitchTextField.textboxKeyTyped(character, keyCode);
 
         if (keyCode == ENTER_KEY_CODE) {
             this.error(null, "");
@@ -158,7 +168,7 @@ public class GUI extends GuiScreen {
                         this.error(this.noteTextField, "The entered note/octave is not supported.");
                     }
                 } else {
-                    this.error(this.noteTextField, "The entered note/octave is not supported.");
+                    this.error(this.noteTextField, "The entered note could not be parsed.");
                 }
                 this.noteTextField.setFocused(false);
             }
@@ -173,7 +183,7 @@ public class GUI extends GuiScreen {
                         this.error(this.octaveTextField, "The entered note/octave is not supported.");
                     }
                 } else {
-                    this.error(this.octaveTextField, "The entered note/octave is not supported.");
+                    this.error(this.octaveTextField, "The entered octave could not be parsed.");
                 }
                 this.octaveTextField.setFocused(false);
             }
@@ -183,47 +193,32 @@ public class GUI extends GuiScreen {
 
                 if (pair != null) {
                     Pitch pitch = Pitch.fromNoteOctave(pair);
-
                     if (pitch != null) {
                         this.changePitch(pitch);
                     } else {
                         this.error(this.pitchTextField, "The entered note/octave is not supported.");
                     }
                 } else {
-                    this.error(this.pitchTextField, "The entered note/octave is not supported.");
+                    this.error(this.pitchTextField, "The entered note/octave could not be parsed.");
                 }
                 this.pitchTextField.setFocused(false);
             }
+        } else if (keyCode == UP_KEY_CODE || keyCode == RIGHT_KEY_CODE) {
+            this.changePitch(this.currentPitch.increment(1));
+        } else if (keyCode == DOWN_KEY_CODE || keyCode == LEFT_KEY_CODE) {
+            this.changePitch(this.currentPitch.increment(-1));
         }
     }
 
     private void error(GuiTextField field, String error) {
-        List<GUIErrorLabel> labels = new ArrayList<GUIErrorLabel>();
-        GUIErrorLabel label = this.getGuiLabel(field);
-        if (label == null) {
-            for (GUIErrorLabel l : this.getAllLabels()) {
-                labels.add(l);
-            }
-        } else {
-            labels.add(label);
+        if (field == null) {
+            this.error.disable();
+        } else if (field.equals(this.noteTextField)) {
+            this.noteTextField.setText(this.currentPitch.getNote().toString());
+        } else if (field.equals(this.octaveTextField)) {
+            this.octaveTextField.setText(this.currentPitch.getOctave().toString());
         }
-
-        for (GUIErrorLabel l : labels) {
-            l.setError(error);
-            if (error.isEmpty()) {
-                l.disable();
-            }
-        }
-    }
-
-    private GUIErrorLabel[] getAllLabels() {
-        //TODO: implement
-        return new GUIErrorLabel[0];
-    }
-
-    private GUIErrorLabel getGuiLabel(GuiTextField field) {
-        //TODO: implement
-        return null;
+        this.error.setError(error);
     }
 
     @Override

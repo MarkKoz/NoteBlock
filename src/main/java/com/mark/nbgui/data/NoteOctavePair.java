@@ -4,7 +4,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class NoteOctavePair {
-    private static Pattern pattern = Pattern.compile("^([A-Za-z#]{1,2}|[A-Za-z]sharp)\\s*(\\d)$");
+    private static Pattern pattern = Pattern.compile("^([A-Za-z]\\s*(?:#|sharp))\\s*(\\d)$");
 
     /**
      * The Note object in this pair
@@ -40,7 +40,7 @@ public class NoteOctavePair {
             String strNote = m.group(1);
             int iOctave = Integer.parseInt(m.group(2));
 
-            Note note = Note.fromString(strNote);
+            Note note = Note.parse(strNote);
             Octave octave = Octave.fromNum(iOctave);
 
             return new NoteOctavePair(note, octave);
