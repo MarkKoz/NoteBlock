@@ -3,7 +3,7 @@ package com.mark.nbgui.packet;
 public enum Instruction {
     PlayPitch,
     ChangePitch,
-    GetStrings;
+    GetPitch;
 
     private static Instruction[] instructions = Instruction.values();
 

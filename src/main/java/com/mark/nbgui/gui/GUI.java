@@ -51,17 +51,25 @@ public class GUI extends GuiScreen {
         this.z = z;
 
         this.underBlock = world.getBlockState(pos.down()).getBlock();
-        this.currentPitch = new Pitch(0);
     }
 
     private void updateNote() {
-        NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetStrings));
+        NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetPitch));
         GUI.pitchReceived.add(pitch -> this.noteTextField.setText(pitch.getNote().getName()));
     }
 
     private void updateOctave() {
-        NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetStrings));
+        NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetPitch));
         GUI.pitchReceived.add(pitch -> this.octaveTextField.setText(pitch.getOctave().getName()));
+    }
+
+    private void updatePitch() {
+        NBGUI.network.sendToServer(new Packet(this.x, this.y, this.z, Instruction.GetPitch));
+        GUI.pitchReceived.add(pitch -> {
+            this.noteTextField.setText(pitch.getNote().getName());
+            this.octaveTextField.setText(pitch.getOctave().getName());
+            this.currentPitch = pitch;
+        });
     }
 
     private void changePitch(Pitch pitch) {
@@ -147,6 +155,10 @@ public class GUI extends GuiScreen {
         this.pitchTextField.setDisabledTextColour(-1);
         this.pitchTextField.setEnableBackgroundDrawing(true);
         this.pitchTextField.setMaxStringLength(16);
+
+
+        this.currentPitch = new Pitch(0);
+        this.updatePitch();
     }
 
     @Override
@@ -233,6 +245,7 @@ public class GUI extends GuiScreen {
     public void updateScreen() {
         this.noteTextField.updateCursorCounter();
         this.octaveTextField.updateCursorCounter();
+        this.pitchTextField.updateCursorCounter();
     }
 
     @Override
