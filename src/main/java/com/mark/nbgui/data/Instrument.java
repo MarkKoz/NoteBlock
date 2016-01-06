@@ -31,6 +31,10 @@ public enum Instrument {
         return Instrument.values[id];
     }
 
+    public int id() {
+        return this.ordinal();
+    }
+
     public String translate() {
         switch (this) {
             case PIANO:
