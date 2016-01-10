@@ -2,6 +2,7 @@ package com.mark.nbgui.packet;
 
 import com.mark.nbgui.NBGUI;
 import com.mark.nbgui.data.Pitch;
+import com.mark.nbgui.utils.NotePlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.tileentity.TileEntityNote;
 import net.minecraft.util.BlockPos;
@@ -23,7 +24,7 @@ public class PacketHandler implements IMessageHandler<Packet, Packet> {
 
             switch (packet.instruction) {
                 case PlayPitch:
-                    noteBlock.triggerNote(world, pos);
+                    new NotePlayer(noteBlock, pos, world).play();
                     break;
                 case ChangePitch:
                     noteBlock.note = (byte) packet.pitch.getNum();
