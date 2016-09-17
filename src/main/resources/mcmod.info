@@ -1,9 +1,9 @@
 [
 {
-  "modid": "NBGUI",
+  "modid": "nbgui",
   "name": "Note Block GUI",
   "description": "Adds a GUI to note blocks to ease tuning.",
-  "version": "${version}",
+  "version": "1.0",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

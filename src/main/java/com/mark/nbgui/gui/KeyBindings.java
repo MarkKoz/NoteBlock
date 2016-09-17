@@ -8,32 +8,38 @@ import org.lwjgl.input.Keyboard;
 
 public class KeyBindings {
 
-    // Declare KeyBindings
-    public static KeyBinding returnInput;
+	// Declare KeyBindings
+	public static KeyBinding returnInput;
 
-    @SideOnly(Side.CLIENT)
-    public static void init() {
+	@SideOnly(Side.CLIENT)
+	public static void init() {
 
     	/*Vanilla Categories
 		* key.categories.movement (Movement): 
-		* 	Everything related to moving your player across the world, like jumping and walking
+		* 	Everything related to moving your player across the world, like
+		* 	jumping and walking
     	* key.categories.inventory (Inventory): 
-    	* 	Everything related to the player inventory, used for opening the inventory and all the hotbar slots by Vanilla
+    	* 	Everything related to the player inventory, used for opening the
+    	* 	inventory and all the hotbar slots by Vanilla
     	* key.categories.gameplay (Gameplay): 
-    	* 	Everything related to the direct gameplay, for example attacking, picking a block etc.
+    	* 	Everything related to the direct gameplay, for example attacking,
+    	* 	picking a block etc.
     	* key.categories.multiplayer (Multiplayer): 
-    	* 	Used for all the multiplayer specific key bindings, like opening chat etc.
+    	* 	Used for all the multiplayer specific key bindings, like opening
+    	* 	chat etc.
     	* key.categories.misc (Miscellaneous): 
-    	* 	A place for all the key bindings which don't fit the previous categories, taking screenshots, for example 
+    	* 	A place for all the key bindings which don't fit the previous
+    	* 	categories, taking screenshots, for example
     	*/
 
-        // Define unlocalised binding name
-        // the category with unlocalised name
-        // key code or LWJGL constant
-        returnInput = new KeyBinding("nbgui.key.return", Keyboard.KEY_RETURN, "nbgui.key.category");
+		// Define unlocalised binding name
+		// the category with unlocalised name
+		// key code or LWJGL constant
+		returnInput = new KeyBinding("nbgui.key.return", Keyboard.KEY_RETURN,
+				"nbgui.key.category");
 
-        // Register KeyBindings to the ClientRegistry
-        ClientRegistry.registerKeyBinding(returnInput);
-    }
+		// Register KeyBindings to the ClientRegistry
+		ClientRegistry.registerKeyBinding(returnInput);
+	}
 
 }

@@ -1,6 +1,6 @@
 package com.mark.nbgui.event;
 
-import com.mark.nbgui.NBGUI;
+import com.mark.nbgui.nbgui;
 import com.mark.nbgui.gui.GUI;
 import com.mark.nbgui.gui.KeyBindings;
 import net.minecraft.block.Block;
@@ -28,32 +28,40 @@ public class EventHandlerCommon {
         //PLAY OVERRIDDEN
     }*/
 
-    @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void onKeyInput(InputEvent.KeyInputEvent event) {
-        Minecraft mc = Minecraft.getMinecraft();
-        if (KeyBindings.returnInput.isPressed() && FMLClientHandler.instance().getClient().inGameHasFocus) {
-            System.out.println("[DEBUG] Return Constant");
-            System.out.println("[DEBUG] KeyCode: " + KeyBindings.returnInput.getKeyCode());
-            System.out.println("[DEBUG] KeyCodeDefault: " + KeyBindings.returnInput.getKeyCodeDefault());
+	@SubscribeEvent
+	@SideOnly(Side.CLIENT)
+	public void onKeyInput(InputEvent.KeyInputEvent event) {
+		Minecraft mc = Minecraft.getMinecraft();
+		if (KeyBindings.returnInput.isPressed() && FMLClientHandler.instance()
+				.getClient().inGameHasFocus) {
+			System.out.println("[DEBUG] Return Constant");
+			System.out.println("[DEBUG] KeyCode: " + KeyBindings.returnInput
+					.getKeyCode());
+			System.out.println("[DEBUG] KeyCodeDefault: " + KeyBindings
+					.returnInput.getKeyCodeDefault());
 			/*if (mc.currentScreen instanceof GUI) {
-    			//GUI.thing = true;
+				//GUI.thing = true;
     			System.out.println("[DEBUG] Return Constant Screen Checked");
     		}*/
-        }
-    }
+		}
+	}
 
-    @SubscribeEvent
-    public void playerInteract(PlayerInteractEvent event) {
-        if (event.action == PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            World world = event.world;
-            Block block = world.getBlockState(event.pos).getBlock();
-            if (block.equals(Blocks.noteblock)) {
-                event.entityPlayer.openGui(NBGUI.instance, GUI.GUI_ID, world, event.pos.getX(), event.pos.getY(), event.pos.getZ());
+	@SubscribeEvent
+	public void playerInteract(PlayerInteractEvent event) {
+		if (event instanceof PlayerInteractEvent.RightClickBlock) {
+			World world = event.getWorld();
+			Block block = world.getBlockState(event.getPos()).getBlock();
+			if (block.equals(Blocks.NOTEBLOCK)) {
+				event.getEntityPlayer().openGui(nbgui.instance, GUI.GUI_ID,
+						world, event.getPos()
+								.getX(), event.getPos().getY(), event.getPos()
+								.getZ());
 
-                event.useBlock = Event.Result.DENY;
-                //event.setCanceled(true);
-            }
-        }
-    }
+				//event. = Event.Result.DENY;
+				((PlayerInteractEvent.RightClickBlock) event).setUseBlock
+						(Event.Result.DENY);
+				//event.setCanceled(true);
+			}
+		}
+	}
 }
