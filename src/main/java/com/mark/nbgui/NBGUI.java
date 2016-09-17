@@ -21,32 +21,37 @@ import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid = Reference.MODID, version = Reference.VERSION, name = Reference.NAME, dependencies = Reference.DEPENDENCIES)
+@Mod(modid = Reference.MODID, version = Reference.VERSION, name = Reference
+		.NAME, dependencies = Reference.DEPENDENCIES)
 
-public class NBGUI {
-    public static SimpleNetworkWrapper network;
+public class nbgui {
+	public static SimpleNetworkWrapper network;
 
-    @Instance(Reference.MODID)
-    public static NBGUI instance;
+	@Instance(Reference.MODID)
+	public static nbgui instance;
 
-    @SidedProxy(modId = Reference.MODID, clientSide = Reference.proxyClient, serverSide = Reference.proxyServer)
-    public static IProxy proxy;
+	@SidedProxy(modId = Reference.MODID, clientSide = Reference.proxyClient,
+			serverSide = Reference.proxyServer)
+	public static IProxy proxy;
 
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.channel);
-        network.registerMessage(PacketHandler.class, Packet.class, 0, Side.SERVER);
-        network.registerMessage(PacketHandlerClient.class, PacketClient.class, 1, Side.CLIENT);
-    }
+	@EventHandler
+	public void preInit(FMLPreInitializationEvent event) {
+		network = NetworkRegistry.INSTANCE.newSimpleChannel(Reference.channel);
+		network.registerMessage(PacketHandler.class, Packet.class, 0, Side
+				.SERVER);
+		network.registerMessage(PacketHandlerClient.class, PacketClient.class,
+				1, Side.CLIENT);
+	}
 
-    @EventHandler
-    public void init(FMLInitializationEvent event) {
-        NetworkRegistry.INSTANCE.registerGuiHandler(NBGUI.instance, new GUIHandler());
-        MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
-        KeyBindings.init();
-    }
+	@EventHandler
+	public void init(FMLInitializationEvent event) {
+		NetworkRegistry.INSTANCE.registerGuiHandler(nbgui.instance, new
+				GUIHandler());
+		MinecraftForge.EVENT_BUS.register(new EventHandlerCommon());
+		KeyBindings.init();
+	}
 
-    @EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-    }
+	@EventHandler
+	public void postInit(FMLPostInitializationEvent event) {
+	}
 }
