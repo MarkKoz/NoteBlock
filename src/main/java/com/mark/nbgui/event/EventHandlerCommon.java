@@ -28,23 +28,23 @@ public class EventHandlerCommon {
         //PLAY OVERRIDDEN
     }*/
 
-	@SubscribeEvent
+/*	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void onKeyInput(InputEvent.KeyInputEvent event) {
 		Minecraft mc = Minecraft.getMinecraft();
-		if (KeyBindings.returnInput.isPressed() && FMLClientHandler.instance()
+		if (KeyBindings.Return.isPressed() && FMLClientHandler.instance()
 				.getClient().inGameHasFocus) {
 			System.out.println("[DEBUG] Return Constant");
-			System.out.println("[DEBUG] KeyCode: " + KeyBindings.returnInput
+			System.out.println("[DEBUG] KeyCode: " + KeyBindings.Return
 					.getKeyCode());
 			System.out.println("[DEBUG] KeyCodeDefault: " + KeyBindings
-					.returnInput.getKeyCodeDefault());
-			/*if (mc.currentScreen instanceof GUI) {
+					.Return.getKeyCodeDefault());
+			if (mc.currentScreen instanceof GUI) {
 				//GUI.thing = true;
     			System.out.println("[DEBUG] Return Constant Screen Checked");
-    		}*/
+    		}
 		}
-	}
+	}*/
 
 	@SubscribeEvent
 	public void playerInteract(PlayerInteractEvent event) {
@@ -57,7 +57,6 @@ public class EventHandlerCommon {
 								.getX(), event.getPos().getY(), event.getPos()
 								.getZ());
 
-				//event. = Event.Result.DENY;
 				((PlayerInteractEvent.RightClickBlock) event).setUseBlock
 						(Event.Result.DENY);
 				//event.setCanceled(true);

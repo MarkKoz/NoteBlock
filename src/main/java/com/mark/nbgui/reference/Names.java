@@ -4,6 +4,9 @@ public final class Names {
 	public static final class Keys {
 		public static final String Category = "nbgui.key.category";
 		public static final String Return = "nbgui.key.return";
+		public static final String Add = "nbgui.key.add";
+		public static final String Sub = "nbgui.key.sub";
+		public static final String Play = "nbgui.key.play";
 	}
 
 	public static final class Buttons {

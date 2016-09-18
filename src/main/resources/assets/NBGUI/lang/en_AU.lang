@@ -1,6 +1,9 @@
 # Key Bindings
 nbgui.key.category=Note Block GUI
 nbgui.key.return=Confirm Text Input
+nbgui.key.add=Increase Pitch
+nbgui.key.sub=Decrease Pitch
+nbgui.key.play=Play Note
 
 # Buttons
 nbgui.button.playNote=Play Note

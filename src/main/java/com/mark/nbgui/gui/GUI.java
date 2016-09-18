@@ -1,11 +1,13 @@
 package com.mark.nbgui.gui;
 
-import com.mark.nbgui.nbgui;
 import com.mark.nbgui.data.*;
+import com.mark.nbgui.nbgui;
 import com.mark.nbgui.packet.IStringReceived;
 import com.mark.nbgui.packet.Instruction;
 import com.mark.nbgui.packet.Packet;
+import com.mark.nbgui.reference.Names;
 import net.minecraft.block.Block;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -22,34 +24,33 @@ import java.util.List;
 
 public class GUI extends GuiScreen {
 	public final static int GUI_ID = 20;
-	private static final int ENTER_KEY_CODE = 28;
 	private static final int UP_KEY_CODE = 200;
 	private static final int DOWN_KEY_CODE = 208;
 	private static final int RIGHT_KEY_CODE = 205;
 	private static final int LEFT_KEY_CODE = 203;
-	public static List<IStringReceived> pitchReceived = new
-			ArrayList<>();
-	private static String instrumentText = I18n.format("nbgui.string.gui" +
+	public static List<IStringReceived> pitchReceived = new ArrayList<>();
+	private static String instrumentText = "§l" + I18n.format("nbgui.string" +
+			".gui" +
 			".instrument") + " {instrument}";
-	private static String noteText = I18n.format("nbgui.string.gui.note") + "" +
-			" " +
-			"{note}";
-	private static String octaveText = I18n.format("nbgui.string.gui.octave")
-			+ " {octave}";
-	private int x;
-	private int y;
-	private int z;
-	private int xSize;
-	private int ySize;
-	private int GuiRectX;
-	private int GuiRectY;
+	private FontRenderer fR;
 	private Block underBlock;
 	private Pitch currentPitch;
 	private GuiTextField noteTextField;
 	private GuiTextField octaveTextField;
 	private GuiTextField pitchTextField;
 	private GUIErrorLabel error;
-	private ResourceLocation GuiBG;
+	private ResourceLocation guiBgRes;
+	private int x;
+	private int y;
+	private int z;
+	private int guiPosX;
+	private int guiPosY;
+	private int guiW;
+	private int guiH;
+	private int guiBgW;
+	private int guiBgH;
+	private int guiCentX;
+	private int guiCentY;
 
 	public GUI(EntityPlayer player, World world, int x, int y, int z) {
 		BlockPos pos = new BlockPos(x, y, z);
@@ -98,69 +99,46 @@ public class GUI extends GuiScreen {
 
 	@Override
 	public void drawScreen(int x, int y, float f) {
-		//this.drawDefaultBackground();
-		this.mc.getTextureManager().bindTexture(GuiBG);
-		this.drawTexturedModalRect(GuiRectX, GuiRectY, this.xSize, this.ySize, 256, 256);
+		fR = this.fontRendererObj;
 
-		super.drawScreen(x, y, f);
+		// Background
+		this.mc.getTextureManager().bindTexture(guiBgRes);
+		this.drawTexturedModalRect(guiPosX, guiPosY, guiBgW, guiBgH, guiW,
+				guiH);
 
+		// Strings
+		this.error.draw();
+		this.drawCenteredString(fR, GUI.instrumentText.replace("{instrument}",
+				Instrument.get(this.underBlock).translate()), guiCentX, guiPosY +
+				16, 0xFFFFFFFF);
+
+		// Text Boxes
 		this.noteTextField.drawTextBox();
 		this.octaveTextField.drawTextBox();
 		this.pitchTextField.drawTextBox();
 
-		this.error.draw();
-
-		this.drawCenteredString(this.fontRendererObj,
-				GUI.instrumentText.replace("{instrument}",
-						Instrument.get(this.underBlock).translate()),
-				GuiRectX + (xSize / 2), GuiRectY + 16, 0xFFFFFFFF);
-
-		// TODO Remove note and octave strings; redundant with text fields
-		/*this.drawCenteredString(this.fontRendererObj,
-            GUI.noteText.replace("{note}",
-        	getNoteString()), 
-        	this.width / 2, 50, 0xFFFFFFFF);
-        this.drawCenteredString(this.fontRendererObj,
-            GUI.octaveText.replace("{octave}", 
-            getOctaveString()),
-            this.width / 2, 70, 0xFFFFFFFF);*/
+		super.drawScreen(x, y, f);
 	}
 
 	@Override
 	public void initGui() {
 		Keyboard.enableRepeatEvents(false);
+		fR = this.fontRendererObj;
 
 		// Background
-		GuiBG = new ResourceLocation
-				("minecraft", "textures/gui/demo_background.png");
-		xSize = 256;
-		ySize = 256;
-		GuiRectX = (this.width - xSize) / 2;
-		GuiRectY = (this.height - ySize) / 2;
-
-		this.error = new GUIErrorLabel(this.fontRendererObj, GuiRectX +
-				(xSize / 2), GuiRectY + 116);
-
-		// Play Button
-		GuiButton playButton = new GuiButton(1, GuiRectX + (xSize / 2) - 30,
-				GuiRectY + 128, 64, 20, I18n.format("nbgui.button.playNote"));
-		this.buttonList.add(playButton);
-
-		// Pitch +1 Button
-		GuiButton subPitchButton = new GuiButton(2, GuiRectX + (xSize / 2) +
-				32 + 8,
-				GuiRectY + 48, 20, 20, "+");
-		this.buttonList.add(subPitchButton);
-
-		// Pitch -1 Button
-		GuiButton addPitchButton = new GuiButton(3, GuiRectX + (xSize / 2) -
-				32 - 20 - 8,
-				GuiRectY + 48, 20, 20, "-");
-		this.buttonList.add(addPitchButton);
+		guiBgRes = new ResourceLocation("nbgui", "textures/gui/bg256_192.png");
+		guiBgW = 256;
+		guiBgH = 256;
+		guiW = 256;
+		guiH = 192;
+		guiPosX = (this.width - guiW) / 2;
+		guiPosY = (this.height - guiH) / 2;
+		guiCentX = guiPosX + (guiW / 2);
+		guiCentY = guiPosY + (guiH / 2);
 
 		// Note Text Field
-		this.noteTextField = new GuiTextField(2, this.fontRendererObj,
-				GuiRectX + (xSize / 2) - 30, GuiRectY + 32, 64, 16);
+		this.noteTextField = new GuiTextField(2, fR, guiCentX - 32, guiPosY
+				+ 32, 64, 16);
 		this.noteTextField.setFocused(false);
 		this.noteTextField.setCanLoseFocus(true);
 		this.noteTextField.setTextColor(-1);
@@ -170,8 +148,8 @@ public class GUI extends GuiScreen {
 		this.updateNote();
 
 		// Octave Text Field
-		this.octaveTextField = new GuiTextField(3, this.fontRendererObj,
-				GuiRectX + (xSize / 2) - 30, GuiRectY + 64, 64, 16);
+		this.octaveTextField = new GuiTextField(3, fR, guiCentX - 32, guiPosY
+				+ 56, 64, 16);
 		this.octaveTextField.setFocused(false);
 		this.octaveTextField.setCanLoseFocus(true);
 		this.octaveTextField.setTextColor(-1);
@@ -181,8 +159,8 @@ public class GUI extends GuiScreen {
 		this.updateOctave();
 
 		// Pitch Text Field
-		this.pitchTextField = new GuiTextField(4, this.fontRendererObj,
-				GuiRectX + (xSize / 2) - 30, GuiRectY + 96, 64, 16);
+		this.pitchTextField = new GuiTextField(4, fR, guiCentX - 32, guiPosY
+				+ 80, 64, 16);
 		this.pitchTextField.setFocused(true);
 		this.pitchTextField.setCanLoseFocus(true);
 		this.pitchTextField.setTextColor(-1);
@@ -192,6 +170,24 @@ public class GUI extends GuiScreen {
 
 		this.currentPitch = new Pitch(0);
 		this.updatePitch();
+
+		// Pitch +1 Button
+		GuiButton addPitchButton = new GuiButton(2, guiCentX + 32 + 8, guiPosY
+				+ 42, 20, 20, "+");
+		this.buttonList.add(addPitchButton);
+
+		// Pitch -1 Button
+		GuiButton subPitchButton = new GuiButton(3, guiCentX - 32 - 20 - 8,
+				guiPosY + 42, 20, 20, "-");
+		this.buttonList.add(subPitchButton);
+
+		// Pitch Input Error
+		this.error = new GUIErrorLabel(fR, guiCentX, guiPosY + 104);
+
+		// Play Button
+		GuiButton playButton = new GuiButton(1, guiCentX - 32, guiPosY + 120,
+				64, 20, I18n.format(Names.Buttons.PlayNote));
+		this.buttonList.add(playButton);
 	}
 
 	@Override
@@ -201,7 +197,7 @@ public class GUI extends GuiScreen {
 		this.octaveTextField.textboxKeyTyped(character, keyCode);
 		this.pitchTextField.textboxKeyTyped(character, keyCode);
 
-		if (keyCode == ENTER_KEY_CODE) {
+		if (keyCode == KeyBindings.Return.getKeyCode()) {
 			this.error(null, "");
 			if (this.noteTextField.isFocused()) {
 				Note note = Note.fromString(this.noteTextField.getText());
@@ -262,6 +258,12 @@ public class GUI extends GuiScreen {
 			this.changePitch(this.currentPitch.increment(1));
 		} else if (keyCode == DOWN_KEY_CODE || keyCode == LEFT_KEY_CODE) {
 			this.changePitch(this.currentPitch.increment(-1));
+		} else if (keyCode == KeyBindings.Play.getKeyCode()
+				&& !noteTextField.isFocused()
+				&& !octaveTextField.isFocused()
+				&& !pitchTextField.isFocused()) {
+			nbgui.network.sendToServer(new Packet(x, y, z, Instruction
+					.PlayPitch));
 		}
 	}
 
